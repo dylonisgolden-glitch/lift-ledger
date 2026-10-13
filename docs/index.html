@@ -87,11 +87,11 @@ p { margin: 0; }
 /* shell */
 .shell { min-height: 100vh; }
 .rail { display: none; }
-.main { width: 100%; max-width: 1280px; margin: 0 auto; min-width: 0; padding-inline: 16px; padding-block: 10px calc(var(--tabbar-h) + 32px + env(safe-area-inset-bottom, 0px)); }
+.main { width: 100%; max-width: 1280px; margin: 0 auto; min-width: 0; padding-inline: max(16px, env(safe-area-inset-left, 0px)) max(16px, env(safe-area-inset-right, 0px)); padding-block: 10px calc(var(--tabbar-h) + 32px + env(safe-area-inset-bottom, 0px)); }
 .view { min-width: 0; }
 @keyframes rise { from { opacity: .4; transform: translateY(4px); } to { opacity: 1; transform: none; } }
 @media (prefers-reduced-motion: reduce) { .view { animation: none; } * { scroll-behavior: auto !important; } }
-.tabbar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 40; display: grid; grid-template-columns: repeat(5, 1fr); height: calc(var(--tabbar-h) + env(safe-area-inset-bottom, 0px)); padding-bottom: env(safe-area-inset-bottom, 0px); background: var(--glass); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-top: 1px solid var(--line); }
+.tabbar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 40; display: grid; grid-template-columns: repeat(5, 1fr); height: calc(var(--tabbar-h) + env(safe-area-inset-bottom, 0px)); padding-bottom: env(safe-area-inset-bottom, 0px); padding-inline: env(safe-area-inset-left, 0px) env(safe-area-inset-right, 0px); background: var(--glass); border-top: 1px solid var(--line); }
 .tab { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: var(--muted); font-size: 11px; font-weight: 500; text-decoration: none; letter-spacing: .02em; border: 0; background: transparent; min-height: 48px; }
 .tab .ic { width: 20px; height: 20px; }
 .tab.on { color: var(--fg); }
@@ -363,7 +363,7 @@ textarea.input { min-height: 72px; resize: vertical; line-height: 1.4; }
 .pick-item .meta { margin-left: auto; font-size: 12px; color: var(--muted); white-space: nowrap; }
 .pick-item.create { color: var(--accent); font-weight: 500; }
 .create-box { padding: 12px; display: grid; gap: 10px; border-top: 1px solid var(--line); }
-.save-bar { position: sticky; bottom: calc(var(--tabbar-h) + env(safe-area-inset-bottom, 0px) + 10px); z-index: 20; display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: nowrap; padding: 10px 12px; background: var(--glass); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid var(--line-2); border-radius: 12px; margin-top: 16px; }
+.save-bar { position: sticky; bottom: calc(var(--tabbar-h) + env(safe-area-inset-bottom, 0px) + 10px); z-index: 20; display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: nowrap; padding: 10px 12px; background: var(--glass); border: 1px solid var(--line-2); border-radius: 12px; margin-top: 16px; }
 @media (min-width: 960px) { .save-bar { bottom: 16px; } }
 .save-sum { font-family: var(--font-data); font-size: 12.5px; color: var(--fg-2); min-width: 0; }
 .save-bar .btn { flex: none; }
@@ -470,6 +470,69 @@ button.mchip:hover { color: var(--fg); border-color: var(--fg-2); }
 .ex-card.complete { border-color: var(--up-line); }
 .chip.done { background: var(--up-soft); color: var(--up); }
 .ex-hist { margin-top: 8px; padding: 8px 10px; border-radius: 8px; background: var(--panel-2); display: grid; gap: 4px; font-size: 12.5px; }
+
+/* mobile-first refinements */
+html { overscroll-behavior-y: contain; }
+button, .btn, .tab, .chk, .seg button, .pick-item, .w-row, .watch { touch-action: manipulation; -webkit-user-select: none; user-select: none; }
+.btn:active, .chk:active, .tab:active, .seg button:active, .icon-btn:active, .rm:active { filter: brightness(.88); }
+.tab .ic { padding: 3px 14px; border-radius: 999px; box-sizing: content-box; }
+.tab.on .ic { background: var(--accent-soft); }
+.ex-toggle { border: 0; background: transparent; color: inherit; padding: 0; text-align: left; cursor: pointer; font: inherit; font-weight: 600; font-size: 16px; }
+.set-actions { display: flex; gap: 8px; flex-wrap: wrap; padding: 4px 0 8px 30px; }
+.ed-summary { width: 100%; display: flex; align-items: center; gap: 10px; padding: 12px 14px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--panel); color: inherit; text-align: left; min-height: 52px; }
+.ed-sum-name { font-weight: 600; flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ed-sum-edit { display: inline-flex; gap: 6px; align-items: center; color: var(--fg-2); font-size: 13px; flex: none; }
+.lb-list { display: grid; }
+.lb-row { display: grid; grid-template-columns: 38px minmax(0, 1fr) auto; gap: 10px; align-items: center; padding: 10px 4px; border-top: 1px solid var(--line); }
+.lb-row:first-child { border-top: 0; }
+.lb-row.me { background: var(--accent-soft); border-radius: 8px; }
+.lb-rank { font-family: var(--font-display); font-size: 22px; font-weight: 600; text-align: center; }
+.lb-meta { display: flex; gap: 8px; align-items: center; margin-top: 3px; flex-wrap: wrap; }
+.lb-val { font-family: var(--font-data); font-size: 13px; text-align: right; white-space: nowrap; }
+@media (min-width: 601px) { .lb-list { display: none; } }
+@media (max-width: 600px) {
+  .lb-table-wrap { display: none; }
+  .tbl.stackable, .tbl.stackable tbody { display: block; width: 100%; }
+  .tbl.stackable thead { display: none; }
+  .tbl.stackable tr { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px 14px; padding: 12px 2px; border-top: 1px solid var(--line); }
+  .tbl.stackable tr:first-child { border-top: 0; }
+  .tbl.stackable td { display: block; border: 0; padding: 0; text-align: left; white-space: normal; min-width: 0; background: transparent !important; }
+  .tbl.stackable td.r { text-align: left; }
+  .tbl.stackable td::before { content: attr(data-label); display: block; font-family: var(--font-data); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: 2px; }
+  .tbl.stackable td[data-label=""]::before { display: none; }
+  .tbl.stackable td:first-child { grid-column: 1 / -1; }
+  .tbl.stackable td:first-child::before { display: none; }
+  .tbl.stackable.num-first tr { grid-template-columns: 30px repeat(2, minmax(0, 1fr)); }
+  .tbl.stackable.num-first td:first-child { grid-column: 1; grid-row: span 2; font-family: var(--font-display); font-size: 20px; }
+  .tbl.stackable.num-first td:nth-child(2) { grid-column: 2 / -1; }
+  .tbl.stackable.num-first td:nth-child(2)::before { display: none; }
+  .tbl.stackable .sets-cell { min-width: 0; grid-column: 1 / -1; }
+  .tbl.stackable tr.me, .tbl.stackable tr[style*="panel-2"] { background: var(--panel-2); border-radius: 8px; }
+  .tbl-wrap:has(> .stackable) { overflow: visible; }
+}
+@media (max-width: 959px) {
+  .page-head { padding-block: 4px 12px; }
+  .page-head h1 { font-size: 30px; }
+  .quote-name { font-size: 26px; }
+  .switch { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 15; background: var(--bg); }
+  input.input, select.input, textarea.input, .in { font-size: 16px !important; }
+  .toasts { bottom: calc(var(--tabbar-h) + env(safe-area-inset-bottom, 0px) + 84px); }
+  .modal { max-height: 90vh; max-height: 90dvh; }
+  /* While the on-screen keyboard is up, free the bottom of the screen for the save bar. */
+  body.kb-open .tabbar, body.kb-open .fab { display: none; }
+  body.kb-open .save-bar { bottom: calc(var(--kb, 0px) + 8px); }
+}
+@media (max-width: 420px) {
+  .kpi-value { font-size: 26px; }
+  .kpi { padding: 12px 14px; }
+}
+.set-grid { grid-template-columns: 24px minmax(0, 1fr) 78px 62px 46px 36px; }
+.rm { width: 36px; }
+.in { scroll-margin-block: 90px 140px; }
+@media (max-width: 369px) {
+  .set-grid { grid-template-columns: 22px minmax(0, 1fr) minmax(0, 1fr) 46px 36px; }
+  .set-grid .prev, .set-hdr span:nth-child(2) { display: none; }
+}
 @media (min-width: 960px) { .panel { --pad: 20px; } .stack, .cols { gap: 20px; } }
 @media (max-width: 959px) {
   .btn { min-height: 44px; }
@@ -580,11 +643,79 @@ button.mchip:hover { color: var(--fg); border-color: var(--fg-2); }
 .pe-row .in { height: 38px; }
 .pe-row select.input { min-height: 38px; font-size: 14px; padding: 4px 28px 4px 8px; }
 @media (max-width: 680px) { .pe-row { grid-template-columns: 22px minmax(0, 1fr) 52px 70px; } .pe-row .pe-rest, .pe-row .pe-act { grid-column: 2 / -1; } .pe-head .pe-rest, .pe-head .pe-act { display: none; } }
+/* privacy, legal & consent */
+.gate-shell { min-height: 100vh; padding: max(22px, env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) calc(40px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); }
+.gate { max-width: 680px; margin: 0 auto; display: grid; gap: 16px; }
+.gate-brand { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+.gate h1 { font-family: var(--font-display); font-weight: 600; font-size: 36px; letter-spacing: .02em; line-height: .98; text-transform: uppercase; }
+.gate-step { font-family: var(--font-data); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+.gate-lead { font-size: 15.5px; color: var(--fg-2); line-height: 1.55; max-width: 62ch; }
+fieldset.choices { border: 0; padding: 0; margin: 0; display: grid; gap: 8px; min-width: 0; }
+fieldset.choices legend { font-weight: 600; color: var(--fg); font-size: 16px; margin-bottom: 8px; padding: 0; }
+.choice { display: flex; align-items: center; gap: 12px; min-height: 52px; padding: 10px 14px; border: 1px solid var(--line-2); border-radius: 10px; background: var(--panel-2); cursor: pointer; font-size: 15px; color: var(--fg); }
+.choice.on { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
+.choice input { width: 20px; height: 20px; accent-color: var(--accent); flex: none; margin: 0; }
+.agree-list { display: grid; gap: 10px; }
+.agree { display: grid; gap: 8px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); }
+.agree .check { align-items: flex-start; font-size: 14.5px; color: var(--fg); min-height: 32px; }
+.agree .check input { margin-top: 1px; flex: none; }
+.doc { display: grid; gap: 10px; color: var(--fg-2); font-size: 15px; line-height: 1.6; max-width: 72ch; min-width: 0; overflow-wrap: anywhere; }
+.doc h2 { font-family: var(--font-display); font-size: 30px; font-weight: 600; text-transform: uppercase; letter-spacing: .02em; color: var(--fg); line-height: 1.02; }
+.doc h3 { font-size: 16.5px; font-weight: 600; color: var(--fg); margin: 14px 0 2px; }
+.doc section { scroll-margin-top: 72px; }
+.doc p { margin: 6px 0; }
+.doc ul { margin: 6px 0; padding-left: 20px; display: grid; gap: 6px; }
+.doc-meta { font-family: var(--font-data); font-size: 12px; color: var(--muted); margin-top: 6px; }
+.doc-sum { color: var(--fg); }
+.draft-flag { border: 1px solid var(--accent-line); background: var(--accent-soft); border-radius: 10px; padding: 10px 12px; font-size: 13.5px; line-height: 1.5; }
+.draft-flag strong { color: var(--fg); }
+.rnote { border-left: 3px solid var(--series); background: rgba(79, 143, 240, 0.09); padding: 8px 12px; border-radius: 0 8px 8px 0; font-size: 13.5px; line-height: 1.5; color: var(--fg-2); }
+.rnote-tag { font-family: var(--font-data); font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--series); margin-right: 8px; }
+.doc-cards { display: grid; gap: 8px; margin: 8px 0; }
+.doc-card { display: grid; gap: 6px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--panel-2); font-size: 14px; line-height: 1.5; }
+.doc-card b { color: var(--fg); font-weight: 600; }
+.dc-l { display: block; font-family: var(--font-data); font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.toc { display: grid; padding: 6px; border: 1px solid var(--line); border-radius: 10px; }
+.toc button { text-align: left; border: 0; background: transparent; color: var(--fg-2); min-height: 38px; padding: 6px 8px; border-radius: 6px; font-size: 14px; }
+.toc button:hover { background: var(--panel-2); color: var(--fg); }
+.legal-layout { display: grid; gap: 16px; min-width: 0; }
+.doc-list { display: grid; gap: 4px; align-content: start; min-width: 0; }
+.doc-list button, .doc-link { display: flex; justify-content: space-between; align-items: center; gap: 10px; text-align: left; min-height: 44px; padding: 8px 12px; border-radius: 8px; border: 1px solid var(--line); background: var(--panel); color: var(--fg-2); font-size: 14px; width: 100%; }
+.doc-list button:hover, .doc-link:hover { color: var(--fg); border-color: var(--line-2); }
+.doc-list button.on { background: var(--raise); color: var(--fg); border-color: var(--line-2); box-shadow: inset 3px 0 0 var(--accent); }
+@media (min-width: 1000px) { .legal-layout { grid-template-columns: 250px minmax(0, 1fr); align-items: start; } .doc-list { position: sticky; top: 22px; } }
+@media (max-width: 999px) { .doc-list { grid-auto-flow: column; grid-auto-columns: max-content; overflow-x: auto; scrollbar-width: none; padding-bottom: 2px; } .doc-list::-webkit-scrollbar { display: none; } .doc-list button { width: auto; } }
+.priv-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 12px; align-items: center; padding: 11px 0; border-top: 1px solid var(--line); }
+.priv-row:first-of-type { border-top: 0; padding-top: 2px; }
+.pr-t { font-weight: 500; color: var(--fg); min-width: 0; }
+.pr-s { grid-column: 1 / -1; font-size: 12.5px; color: var(--muted); line-height: 1.5; }
+.state { font-family: var(--font-data); font-size: 12px; padding: 3px 9px; border-radius: 999px; border: 1px solid var(--line-2); color: var(--fg-2); white-space: nowrap; justify-self: end; }
+.state.on { border-color: var(--accent-line); color: var(--accent); }
+.state.priv { border-color: var(--up-line); color: var(--up); }
+.linkish { border: 0; background: none; padding: 0; color: var(--accent); text-decoration: underline; text-underline-offset: 2px; font: inherit; cursor: pointer; }
+.legal-links { display: flex; flex-wrap: wrap; gap: 0 12px; }
+.legal-links button { border: 0; background: none; padding: 6px 0; color: var(--muted); font-size: 12px; cursor: pointer; }
+.legal-links button:hover { color: var(--fg); text-decoration: underline; }
+.home-foot { margin-top: 20px; padding-top: 10px; border-top: 1px solid var(--line); }
+.home-foot .legal-links button { min-height: 36px; font-size: 12.5px; }
+.gate .legal-links button { font-size: 13px; min-height: 36px; }
+.safety-note { display: flex; gap: 8px; align-items: flex-start; font-size: 12.5px; color: var(--muted); margin: 16px 0 0; max-width: 80ch; line-height: 1.5; }
+.safety-note .ic { width: 16px; height: 16px; margin-top: 1px; color: var(--fg-2); }
+.rec-list { display: grid; }
+.rec { display: flex; justify-content: space-between; align-items: center; gap: 4px 12px; flex-wrap: wrap; padding: 8px 0; border-top: 1px solid var(--line); font-size: 13.5px; color: var(--fg-2); }
+.rec:first-child { border-top: 0; }
+.rec .mono { font-size: 12px; }
+.req { display: grid; gap: 6px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--panel-2); min-width: 0; }
+.req-msg { white-space: pre-wrap; overflow-wrap: anywhere; color: var(--fg); font-size: 14px; }
+.req-reply { display: grid; gap: 2px; border-left: 3px solid var(--up-line); padding-left: 10px; white-space: pre-wrap; overflow-wrap: anywhere; font-size: 14px; color: var(--fg-2); }
+.plain-list { margin: 0; padding-left: 18px; display: grid; gap: 6px; color: var(--fg-2); font-size: 14px; line-height: 1.5; }
+.how-list { margin: 0; padding-left: 18px; display: grid; gap: 8px; color: var(--fg-2); font-size: 14px; line-height: 1.5; }
+.how-list b { color: var(--fg); }
 </style>
 
 <div id="app"><div class="main"><div class="loading" id="boot"><div class="eyebrow">Lift Ledger</div><p>Loading your training log…</p><div class="skel" style="width:60%"></div><div class="skel" style="width:40%"></div></div></div></div>
 
-<script src="vendor/preact.js"></script>
+<script src="vendor/preact.js" integrity="sha384-w94Y7k7ToXbmIx5Vi/LxHtprASwddoLhbR/0ZhekgNn8pP9VNRRHzmp2tqrALfKY" crossorigin="anonymous"></script>
 <script>
 (function () {
 'use strict';
@@ -595,7 +726,7 @@ const { html, render, useState, useEffect, useMemo, useRef, useCallback } = P;
 /* ---------------- constants & utils ---------------- */
 const LB = 0.45359237;
 const DAY = 864e5;
-const ROUTES = ['dashboard', 'log', 'analytics', 'history', 'exercises', 'rankings', 'programs', 'visual', 'profile'];
+const ROUTES = ['dashboard', 'log', 'analytics', 'history', 'exercises', 'rankings', 'programs', 'visual', 'profile', 'data', 'legal'];
 const MUSCLES = ['Chest', 'Back', 'Legs', 'Shoulders', 'Arms', 'Core', 'Full body', 'Other'];
 const RANGES = [['1W', '1W'], ['1M', '1M'], ['3M', '3M'], ['6M', '6M'], ['1Y', '1Y'], ['ALL', 'All']];
 const RANGE_KEYS = RANGES.map(r => r[0]);
@@ -784,7 +915,7 @@ const Ic = {
   chart: icon(() => html`<path d="M3 17l5-6 4 3 6-8 3 3"/><path d="M3 21h18"/>`),
   cal: icon(() => html`<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>`),
   bell: icon(() => html`<path d="M6.5 7v10M3.5 9.5v5M17.5 7v10M20.5 9.5v5M6.5 12h11"/>`),
-  gear: icon(() => html`<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>`),
+  gear: icon(() => html`<circle cx="12" cy="12" r="3.2"/><circle cx="12" cy="12" r="6.6"/><path d="M12 2.5v2.9M12 18.6v2.9M2.5 12h2.9M18.6 12h2.9M5.3 5.3l2 2M16.7 16.7l2 2M5.3 18.7l2-2M16.7 7.3l2-2"/>`),
   check: icon(() => html`<path d="M5 12.5l4.5 4.5L19 7.5"/>`),
   x: icon(() => html`<path d="M6 6l12 12M18 6L6 18"/>`),
   left: icon(() => html`<path d="M15 6l-6 6 6 6"/>`),
@@ -801,13 +932,15 @@ const Ic = {
   plan: icon(() => html`<rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 13h3M8 17h6M15 13h1"/>`),
   body: icon(() => html`<circle cx="12" cy="4.5" r="2.5"/><path d="M12 8v7M7 10.5h10M9 21l3-6 3 6"/>`),
   user: icon(() => html`<circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/>`),
+  shield: icon(() => html`<path d="M12 3l7 3v5.5c0 4.2-2.9 7.9-7 9.5-4.1-1.6-7-5.3-7-9.5V6l7-3z"/><path d="M9 12l2.2 2.2L15.5 10"/>`),
+  more: icon(() => html`<circle cx="5" cy="12" r="1.7" fill="currentColor"/><circle cx="12" cy="12" r="1.7" fill="currentColor"/><circle cx="19" cy="12" r="1.7" fill="currentColor"/>`),
 };
 const BrandMark = () => html`<span class="brand-mark" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1d1405" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l5-5 4 3 8-9"/><path d="M15 6h5v5"/></svg></span>`;
 
 /* ---------------- store ---------------- */
 const DEFAULT_SETTINGS = { unit: 'lb', bodyweight: null, bodyweightUnit: 'lb', formula: 'epley', weekStart: 1, showSample: true, visualMode: 'visual', planPrefs: null, activePlan: null };
 const store = {
-  state: { mode: 'loading', ready: false, workouts: [], exercises: [], settings: { ...DEFAULT_SETTINGS }, notice: null, myId: null, board: [], settingsLoaded: false, plans: [] },
+  state: { mode: 'loading', ready: false, workouts: [], exercises: [], settings: { ...DEFAULT_SETTINGS }, notice: null, myId: null, board: [], settingsLoaded: false, plans: [], consent: null, consentLoaded: false, myRequests: [], inbox: [], isOwner: false },
   subs: new Set(),
   set(patch) { this.state = { ...this.state, ...patch }; this.subs.forEach(f => f(this.state)); },
 };
@@ -834,11 +967,12 @@ function describeDbError(e) {
 
 const LOCAL_KEY = 'liftledger.local.v1';
 function makeLocalBackend() {
-  let data = { workouts: {}, exercises: {}, settings: {}, plans: {} };
-  try { const raw = lsGet(LOCAL_KEY); if (raw) { const p = JSON.parse(raw); data = { workouts: p.workouts || {}, exercises: p.exercises || {}, settings: p.settings || {}, plans: p.plans || {} }; } } catch (e) { /* ignore */ }
+  let data = { workouts: {}, exercises: {}, settings: {}, plans: {}, consent: null };
+  try { const raw = lsGet(LOCAL_KEY); if (raw) { const p = JSON.parse(raw); data = { workouts: p.workouts || {}, exercises: p.exercises || {}, settings: p.settings || {}, plans: p.plans || {}, consent: p.consent || null }; } } catch (e) { /* ignore */ }
   const persist = () => lsSet(LOCAL_KEY, JSON.stringify(data));
   const publish = () => store.set({ workouts: Object.entries(data.workouts).map(([id, w]) => ({ ...w, id })), exercises: Object.entries(data.exercises).map(([id, e]) => ({ ...e, id })), settings: { ...DEFAULT_SETTINGS, ...data.settings }, plans: Object.entries(data.plans).map(([id, p]) => ({ ...p, id })) });
   publish();
+  store.set({ consent: cleanConsent(data.consent), consentLoaded: true });
   return {
     async putWorkout(w) { data.workouts[w.id] = strip(w); persist(); publish(); },
     async deleteWorkout(id) { delete data.workouts[id]; persist(); publish(); },
@@ -847,10 +981,18 @@ function makeLocalBackend() {
     async putSettings(s) { data.settings = strip(s); persist(); publish(); },
     async putPlan(p) { data.plans[p.id] = strip(p); persist(); publish(); },
     async deletePlan(id) { delete data.plans[id]; persist(); publish(); },
+    async putConsent(c) { data.consent = c; persist(); store.set({ consent: cleanConsent(c), consentLoaded: true }); },
+    // 'history' deletes workouts; 'all' deletes everything this browser holds for Lift Ledger. Returns how many items failed.
+    async wipe(scope) {
+      if (scope === 'history') data.workouts = {};
+      else { data = { workouts: {}, exercises: {}, settings: {}, plans: {}, consent: null }; lsDel(BOARD_KEY); store.set({ board: [], consent: null }); }
+      persist(); publish();
+      return 0;
+    },
     // Without the app database the "leaderboard" only ever holds this browser's own entry.
     async putBoard(entry) { lsSet(BOARD_KEY, JSON.stringify({ local: entry })); store.set({ board: [sanitizeEntry('local', entry)].filter(Boolean) }); },
     async deleteBoard() { lsDel(BOARD_KEY); store.set({ board: [] }); },
-    async getMyBoard() { return { exists: !!lsGet(BOARD_KEY) }; },
+    async getMyBoard() { let d = null; try { d = JSON.parse(lsGet(BOARD_KEY) || 'null'); } catch (e) { d = null; } return { exists: !!(d && d.local), data: () => (d ? d.local : null) }; },
     watchBoard() { try { const d = JSON.parse(lsGet(BOARD_KEY) || 'null'); store.set({ board: d && d.local ? [sanitizeEntry('local', d.local)].filter(Boolean) : [] }); } catch (e) { store.set({ board: [] }); } return () => {}; },
   };
 }
@@ -862,6 +1004,12 @@ function makeDbBackend(db, userId) {
   const sdoc = db.doc(`data/users/${userId}/settings`);
   const pcol = base.collection('plans');
   pcol.limit(200).onSnapshot(snap => store.set({ plans: snap.docs.map(d => ({ ...d.data(), id: d.id })) }), () => {});
+  // The consent record and requests sit outside the private subtree so the page owner can read them; the access rules
+  // let each person write only their own (consents/{self}, inbox/{self}) and nobody but the owner read anyone else's.
+  const cdoc = db.doc(`consents/${userId}`);
+  const rdoc = db.doc(`inbox/${userId}`);
+  cdoc.onSnapshot(snap => store.set({ consent: snap.exists ? cleanConsent(snap.data()) : null, consentLoaded: true }), () => store.set({ consentLoaded: true }));
+  rdoc.onSnapshot(snap => store.set({ myRequests: snap.exists ? cleanRequests(snap.data()) : [] }), () => {});
   const got = { w: false, x: false, s: false };
   const ready = () => { if (got.w && got.x && got.s && !store.state.ready) store.set({ ready: true }); };
   const onErr = e => store.set({ ready: true, notice: 'Your log couldn’t be loaded: ' + describeDbError(e) });
@@ -875,9 +1023,43 @@ function makeDbBackend(db, userId) {
     deleteWorkout: id => write(() => wcol.doc(id).delete()),
     putExercise: x => write(() => xcol.doc(x.id).set(strip(x))),
     deleteExercise: id => write(() => xcol.doc(id).delete()),
-    putSettings: s => write(() => sdoc.set(strip(s))),
+    // Confirmed writes update the app state right away, so a follow-up write never starts from an older copy
+    // while the database snapshot is still on its way.
+    putSettings: s => write(() => sdoc.set(strip(s))).then(() => store.set({ settings: { ...DEFAULT_SETTINGS, ...strip(s) } })),
     putPlan: p => write(() => pcol.doc(p.id).set(strip(p))),
     deletePlan: id => write(() => pcol.doc(id).delete()),
+    putConsent: c => write(() => cdoc.set(c)).then(() => store.set({ consent: cleanConsent(c) })),
+    putRequests: items => write(() => rdoc.set({ items, updatedAt: Date.now() })).then(() => store.set({ myRequests: cleanRequests({ items }) })),
+    // Page owner only: everyone's requests, with replies written back into the requester's document.
+    watchInbox: () => db.collection('inbox').limit(500).onSnapshot(
+      snap => store.set({ inbox: snap.docs.map(d => ({ uid: d.id, items: cleanRequests(d.data()) })).filter(x => x.items.length) }),
+      () => store.set({ inbox: [] })),
+    putInbox: (id, items) => write(() => db.doc(`inbox/${id}`).set({ items, updatedAt: Date.now() })),
+    // Reads and deletes page by page, so documents beyond the 1,000 loaded on screen are deleted too. Returns how many failed.
+    async wipe(scope, onDone) {
+      const tick = onDone || (() => {});
+      const drain = async col => {
+        for (let round = 0; round < 40; round++) {
+          const snap = await col.limit(200).get();
+          if (!snap.docs.length) return 0;
+          const failed = await runPool(snap.docs.map(d => () => write(() => col.doc(d.id).delete())), 4, tick);
+          if (failed === snap.docs.length) return failed;
+        }
+        return (await col.limit(200).get()).docs.length;
+      };
+      if (scope === 'history') return drain(wcol);
+      let failed = 0;
+      const one = async ref => { try { await write(() => ref.delete()); } catch (e) { failed++; } tick(); };
+      await one(db.doc(`board/${userId}`));
+      await one(rdoc);
+      await one(cdoc);
+      failed += await drain(wcol);
+      failed += await drain(xcol);
+      failed += await drain(pcol);
+      // Settings go last: if anything above failed, the person stays signed in to the app and can retry.
+      if (!failed) { await one(sdoc); await one(base); }
+      return failed;
+    },
     // Shared leaderboard: one summary document per participant at board/<their id>; the access rules let each person write only their own.
     putBoard: entry => write(() => db.doc(`board/${userId}`).set(entry)),
     deleteBoard: () => write(() => db.doc(`board/${userId}`).delete()),
@@ -896,7 +1078,10 @@ async function initBackend() {
     if (user) { try { userId = await user.id(); } catch (e) { userId = null; } }
     c.use('downloads').then(d => { dlCap = d; }).catch(() => {});
   }
-  if (db && userId) { userCap = user; backend = makeDbBackend(db, userId); store.set({ mode: 'db', myId: userId }); }
+  if (db && userId) {
+    userCap = user; backend = makeDbBackend(db, userId); store.set({ mode: 'db', myId: userId });
+    if (typeof user.isOwner === 'function') user.isOwner().then(o => store.set({ isOwner: !!o })).catch(() => {});
+  }
   else { backend = makeLocalBackend(); store.set({ mode: 'local', ready: true, myId: 'local', settingsLoaded: true }); }
 }
 
@@ -1215,14 +1400,15 @@ const RANK_LIFTS = [
 ];
 const ALL_LIFTS = RANK_LIFTS.map(l => l.key);
 const liftOf = name => { const n = String(name || '').toLowerCase(); const l = RANK_LIFTS.find(x => x.re.test(n) && !x.not.test(n)); return l ? l.key : null; };
-const DEFAULT_COMP = { enabled: false, visibility: 'anonymous', alias: '', relative: false, overall: true, lifts: ALL_LIFTS, muscles: MUSCLE_IDS, shareDemo: false };
+// Nothing is shared until the person picks it: no leaderboard or sharing option starts ticked.
+const DEFAULT_COMP = { enabled: false, visibility: 'anonymous', alias: '', relative: false, overall: false, lifts: [], muscles: [], shareDemo: false };
 const AGE_GROUPS = [['u18', 'Under 18'], ['18-24', '18–24'], ['25-34', '25–34'], ['35-44', '35–44'], ['45-54', '45–54'], ['55-64', '55–64'], ['65+', '65+']];
 const AGE_IDS = AGE_GROUPS.map(g => g[0]);
 const AGE_LABEL = Object.fromEntries(AGE_GROUPS);
 function compOf(settings) {
   const c = settings && settings.competitive && typeof settings.competitive === 'object' ? settings.competitive : {};
   return { ...DEFAULT_COMP, ...c, enabled: c.enabled === true, visibility: c.visibility === 'public' ? 'public' : 'anonymous',
-    lifts: Array.isArray(c.lifts) ? c.lifts.filter(k => ALL_LIFTS.includes(k)) : ALL_LIFTS, muscles: Array.isArray(c.muscles) ? c.muscles.filter(k => MUSCLE[k]) : MUSCLE_IDS };
+    lifts: Array.isArray(c.lifts) ? c.lifts.filter(k => ALL_LIFTS.includes(k)) : [], muscles: Array.isArray(c.muscles) ? c.muscles.filter(k => MUSCLE[k]) : [] };
 }
 function newAlias() {
   const abc = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789', a = new Uint32Array(4);
@@ -1287,7 +1473,7 @@ function buildEntry(workouts, exercises, settings, comp, includeSample) {
   }
   // Age group and goal are shared only when the person opted in, for age- and goal-based comparisons.
   const prof = settings.profile || {}, prefs = settings.planPrefs || {};
-  const ageGroup = comp.shareDemo && AGE_IDS.includes(prof.ageGroup) ? prof.ageGroup : null;
+  const ageGroup = comp.shareDemo && AGE_IDS.includes(prof.ageGroup) && prof.ageGroup !== 'u18' ? prof.ageGroup : null;
   const goal = comp.shareDemo && ['strength', 'muscle', 'general'].includes(prefs.goal) ? prefs.goal : null;
   return { v: 1, asOf: T, updatedAt: Date.now(), visibility: comp.visibility === 'public' ? 'public' : 'anonymous', alias: comp.visibility === 'public' ? '' : String(comp.alias || '').slice(0, 24), lifts, muscles, overall, ageGroup, goal };
 }
@@ -1295,6 +1481,8 @@ function buildEntry(workouts, exercises, settings, comp, includeSample) {
 const bounded = (v, lo, hi) => (typeof v === 'number' && isFinite(v) && v >= lo && v <= hi ? v : null);
 function sanitizeEntry(id, d) {
   if (!d || typeof d !== 'object') return null;
+  // Rankings are for adults: an entry that says it belongs to someone under 18 is never shown.
+  if (d.ageGroup === 'u18') return null;
   const e = { id, asOf: isYmd(d.asOf) ? d.asOf : null, visibility: d.visibility === 'public' ? 'public' : d.visibility === 'example' ? 'example' : 'anonymous', alias: typeof d.alias === 'string' ? d.alias.slice(0, 24) : '', lifts: {}, muscles: {}, overall: null };
   e.ageGroup = AGE_IDS.includes(d.ageGroup) ? d.ageGroup : null;
   e.goal = ['strength', 'muscle', 'general'].includes(d.goal) ? d.goal : null;
@@ -1358,11 +1546,11 @@ function rankRows(entries, key, rel) {
   });
   return rows;
 }
-function myStandings(entries, meId) {
+function myStandings(entries, meId, minN) {
   const out = [];
   for (const key of Object.keys(BOARD_LABELS)) {
     const rows = rankRows(entries, key, false), mine = rows.find(r => r.e.id === meId);
-    if (mine) out.push({ key, label: boardLabel(key), rank: mine.rank, n: rows.length, pct: mine.pct, v: mine.v });
+    if (mine && rows.length >= (minN || 0)) out.push({ key, label: boardLabel(key), rank: mine.rank, n: rows.length, pct: mine.pct, v: mine.v });
   }
   return out.sort((a, b) => (b.pct == null ? -1 : b.pct) - (a.pct == null ? -1 : a.pct) || a.rank - b.rank);
 }
@@ -1383,6 +1571,8 @@ function entryName(e, meId, profiles) {
   return e.alias || 'Anonymous lifter';
 }
 const rankable = S => S.mode === 'db' || S.mode === 'local';
+// Live leaderboards with real people need at least MIN_GROUP of them; example-lifter previews have no such limit.
+const liveMin = mode => (mode === 'live' ? MIN_GROUP : 0);
 
 /* ---------------- drafts ---------------- */
 const DRAFT_KEY = 'liftledger.draft.v1';
@@ -1392,11 +1582,21 @@ function loadDraft() {
   try {
     const d = JSON.parse(lsGet(DRAFT_KEY) || 'null');
     if (d && typeof d.id === 'string' && Array.isArray(d.exercises)) {
-      return { ...emptyDraft(), ...d, name: String(d.name || ''), notes: String(d.notes || ''), exercises: d.exercises.map(e => ({ key: rk(), exerciseId: e.exerciseId, notes: String(e.notes || ''), showNotes: !!e.showNotes, target: String(e.target || ''), targetReps: String(e.targetReps || ''), sets: (e.sets || []).map(s => ({ key: rk(), w: String(s.w || ''), r: String(s.r || ''), d: !!s.d })) })) };
+      return { ...emptyDraft(), ...d, name: String(d.name || ''), notes: String(d.notes || ''), exercises: d.exercises.map(e => ({ key: rk(), exerciseId: e.exerciseId, notes: String(e.notes || ''), showNotes: !!e.showNotes, collapsed: !!e.collapsed, target: String(e.target || ''), targetReps: String(e.targetReps || ''), sets: (e.sets || []).map(s => ({ key: rk(), w: String(s.w || ''), r: String(s.r || ''), d: !!s.d })) })) };
     }
   } catch (e) { /* ignore */ }
   return emptyDraft();
 }
+// Typing in a set saves the draft after a short pause; leaving or hiding the app saves immediately so nothing is lost.
+let draftTimer = 0, draftLatest = null;
+function scheduleDraftSave(d) {
+  draftLatest = d;
+  clearTimeout(draftTimer);
+  draftTimer = setTimeout(() => { persistDraft(draftLatest); draftLatest = null; }, 300);
+}
+function flushDraftSave() { if (draftLatest) { clearTimeout(draftTimer); persistDraft(draftLatest); draftLatest = null; } }
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') flushDraftSave(); });
+window.addEventListener('pagehide', flushDraftSave);
 function persistDraft(d) { if (draftHasContent(d) || d.editing) lsSet(DRAFT_KEY, JSON.stringify(d)); else lsDel(DRAFT_KEY); }
 function workoutToDraft(w, o) {
   o = o || {};
@@ -1436,6 +1636,363 @@ function buildCsv(S, includeSample) {
     }
   }
   return { csv: lines.join('\n') + '\n', sets, workouts: model.ws.length };
+}
+
+/* ---------------- privacy & legal ---------------- */
+// Legal documents are drafts written to match how this page actually behaves. They have not been reviewed by a lawyer,
+// and every [Review] note marks something a person has to confirm before launch (see compliance/PRE-LAUNCH-CHECKLIST.md).
+// Version numbers: a new major version (2.0) is a material change that asks everyone to review and accept again;
+// a minor version (1.1) shows a dismissible notice.
+const LEGAL_EFFECTIVE = '2026-10-13';
+const MIN_AGE = 13;          // nobody younger can use Lift Ledger
+const SOCIAL_MIN_AGE = 18;   // rankings and public profiles
+const MIN_GROUP = 5;         // smallest live comparison group the app will show
+const CONTACT_EMAIL = '';    // [Review] privacy and security contact address; leave empty until one is monitored
+const AGE_BLOCK_KEY = 'liftledger.agecheck.v1';
+const REQUIRED_DOCS = ['terms', 'privacy', 'health'];
+const REQ_KINDS = [['privacy', 'Privacy question or request'], ['correction', 'Correct my data'], ['security', 'Security vulnerability report'], ['other', 'Something else']];
+const REQ_LABEL = Object.fromEntries(REQ_KINDS);
+const REQ_MAX_LEN = 2000, REQ_MAX_ITEMS = 20, REQ_PER_DAY = 3;
+const CONSENT_LABEL = { rankings: 'Competitive rankings', publicProfile: 'Public leaderboard profile', shareDemo: 'Share age group and goal', relative: 'Share strength relative to bodyweight' };
+const contactLine = () => (CONTACT_EMAIL ? `email ${CONTACT_EMAIL}, or use the request form in Profile → Privacy & data` : 'use the request form in Profile → Privacy & data');
+
+// Blocks: a string is a paragraph; {ul: [...]} a list; {note: '...'} a reviewer note (hidden unless review notes are shown);
+// {table: [[head...], [row...]...]} a simple table.
+const LEGAL_DOCS = {
+  privacy: {
+    title: 'Privacy Policy', v: '1.0', eff: LEGAL_EFFECTIVE,
+    summary: 'What Lift Ledger collects, why, who can see it, how long it is kept and how to download or delete it.',
+    sections: [
+      ['In short', [{ ul: [
+        'Your workout log, records, bodyweight and profile are private to your account by default.',
+        'Nothing about your training is shared unless you turn on competitive rankings and choose what to share.',
+        'There are no ads, analytics or tracking tools in Lift Ledger, and no payments. We do not sell personal information or use fitness or health information for advertising.',
+        'You can download everything, correct it, or delete it at any time from Profile → Privacy & data.',
+      ] }]],
+      ['Who we are', [
+        'Lift Ledger is a workout tracker published as a page on claude.ai by its developer ("we", "us"), who is the owner of this page. Anthropic operates claude.ai, the platform that hosts this page, signs you in, and provides the database where Lift Ledger stores its data.',
+        { note: 'Add the developer’s legal name and postal address, and an EU/UK representative if one is required. Confirm Anthropic’s role for data stored by this page (service provider/processor or independent controller) from Anthropic’s current terms.' },
+      ]],
+      ['What we collect and why', [
+        { table: [['Information', 'Why it is needed', 'Who can see it'],
+          ['An internal ID for your claude.ai account (not your email address)', 'To keep your log separate from everyone else’s', 'Lift Ledger uses it to store your data. If you join rankings, your entry is stored under it'],
+          ['Workout log: dates, workout names and types, exercises, sets, reps, weights, completion and notes', 'The core service: logging, history, charts and records', 'Only you'],
+          ['Exercise library and training plans', 'So you can reuse exercises and follow plans', 'Only you'],
+          ['Optional profile: bodyweight, age group, goal, experience, training days', 'Bodyweight improves volume and strength estimates for bodyweight exercises; the rest tailors program suggestions', 'Only you, unless you choose to share age group, goal or a bodyweight ratio in rankings'],
+          ['Preferences: units, formula, colors, display options', 'To show the app the way you set it', 'Only you'],
+          ['Your age range answer (13–17 or 18 and over) and the versions of these documents you accepted, with dates and times', 'To apply age protections and to show what you agreed to', 'Only you'],
+          ['Consent record: document versions accepted, the times you turned optional sharing on or off, and confirmation that you met the minimum age', 'To be able to show what you agreed to and when', 'You and the developer. It contains no workout data'],
+          ['Leaderboard summary, only if you join rankings: best estimated 1RM or reps per chosen lift, weekly sets per chosen muscle group, overall totals, and, only if you opt in, age group, goal and strength-to-bodyweight ratio', 'To rank you against other participants', 'Everyone who can open this page'],
+          ['Requests you send us through the app: type, message and dates', 'To answer privacy, correction and security requests', 'You and the developer'],
+        ] },
+        'If you choose a public leaderboard profile, the page asks claude.ai for your name and photo to show next to your results. Lift Ledger does not store them.',
+        'In your browser, Lift Ledger keeps an unsaved workout draft and display preferences such as open panels and chart ranges. If the page cannot reach the database, your whole log is kept in your browser instead.',
+        'We do not collect your email address, date of birth, location, contacts, photos, device sensor data, payment details, or data from other health apps. Lift Ledger asks for no device permissions (camera, location, notifications and so on). Saving a file you export asks you to confirm each time.',
+      ]],
+      ['Services that receive technical data', [
+        'When the page loads, your browser downloads the interface library from jsDelivr (a content delivery network) and fonts from Google Fonts. Those services receive your IP address and basic browser details under their own privacy policies. Lift Ledger does not receive or store this information. No analytics, advertising or payment services are used.',
+        { note: 'Confirm jsDelivr’s and Google Fonts’ current privacy terms. Consider self-hosting fonts to avoid sending visitors’ IP addresses to Google.' },
+      ]],
+      ['How we use information', [
+        { ul: [
+          'To provide the features you use: logging, history, analytics, muscle groups, programs and visuals.',
+          'To run rankings for people who opted in, using only the summaries listed above.',
+          'To apply age protections and keep a record of what you agreed to.',
+          'To answer requests you send, and to check leaderboard data for impossible values before showing it.',
+        ] },
+        'We do not sell or rent personal information, share it for cross-context behavioral advertising, use fitness or health information for targeted advertising, or build advertising profiles. Lift Ledger makes no automated decisions with legal or similarly significant effects. We do not use your data to train AI models.',
+        { note: 'Confirm how Anthropic may use data stored in artifact databases under its own terms and privacy policy, and describe it here if it differs from the above.' },
+      ]],
+      ['Legal bases (EEA, UK and similar laws)', [
+        { ul: [
+          'Providing the service you asked for (contract): your log, library, plans, preferences and profile.',
+          'Your consent: joining rankings and each optional item you choose to share there. You can withdraw it at any time.',
+          'Legal obligations and legitimate interests: keeping consent records, protecting the service and answering requests.',
+        ] },
+        { note: 'Fitness data such as bodyweight can be health data under GDPR Article 9. Confirm whether storing it requires explicit consent rather than contract, and whether leaderboard sharing needs explicit consent wording.' },
+      ]],
+      ['Who can see your information', [
+        { ul: [
+          'You.',
+          'People who can open this page: only your leaderboard summary, and only if you join rankings.',
+          'The developer: your consent record and any requests you send. Through the app’s access rules, the developer cannot read your workout log, profile or settings.',
+          'Anthropic, which hosts the page and its database.',
+        ] },
+        'Leaderboard entries are stored under your account’s internal ID. "Anonymous" hides your name on screen, but someone with access to this page and developer tools could see that ID. Treat anonymous mode as a display setting.',
+        { note: 'Confirm whether the developer or the platform can access private data by any other means (for example platform administration) and say so here.' },
+      ]],
+      ['How long we keep information', [
+        { ul: [
+          'Workout log, library, plans, profile, preferences and consent record: until you delete them or delete your account data, or until the developer deletes this page, which erases its database.',
+          'Leaderboard entry: until you leave rankings or delete your data. Entries not updated for 30 days are marked inactive.',
+          'Requests you send: until you delete your account data.',
+          'Data in your browser: until you delete your account data in the app or clear your browser’s site data.',
+        ] },
+        'Lift Ledger does not make its own backups. The hosting platform may keep backup or log copies for a period set by its own policies, which this draft does not describe.',
+        { note: 'Confirm the platform’s backup and log retention periods and state the backup deletion schedule here. Decide whether any record must be kept after account deletion for legal reasons (for example proof of a deletion request) and, if so, what and for how long.' },
+      ]],
+      ['Your choices and rights', [
+        { ul: [
+          'See and download your data: Profile → Privacy & data → Download my data (JSON with everything, or CSV of your sets).',
+          'Correct it: edit any workout, exercise, plan, profile field or setting directly, or send a correction request.',
+          'Delete it: delete your workout history, or delete all of your Lift Ledger data.',
+          'Withdraw consent: leave rankings (your entry is deleted), switch to anonymous, or stop sharing age group, goal or bodyweight ratio.',
+          'Ask questions or complain: ' + contactLine() + '. You may also complain to your local data protection authority.',
+        ] },
+        'Depending on where you live, you may have rights to know, access, correct, delete and port your data, to opt out of sale, sharing or targeted advertising (we do none of these), and to limit the use of sensitive information (we use it only to provide the service). We will not treat you differently for using these rights.',
+        { note: 'Confirm response deadlines and identity checks for requests under GDPR, CCPA/CPRA and other applicable laws, and whether an authorized-agent process is needed.' },
+      ]],
+      ['Children and teens', [
+        `Lift Ledger is not for children under ${MIN_AGE}. The app asks for an age range before it can be used and does not let anyone who answers under ${MIN_AGE} continue; nothing about that answer is saved to the database. The screen that blocks access lets the child, or a parent with them, delete anything Lift Ledger stored earlier. A parent or guardian can also contact us: we will delete the information we can reach (leaderboard entry, consent record and requests) and explain how to delete the rest.`,
+        `People aged ${MIN_AGE} to ${SOCIAL_MIN_AGE - 1} can log workouts privately. Rankings, public profiles and other sharing stay off until ${SOCIAL_MIN_AGE}.`,
+        { note: 'Confirm the minimum age by market. Under GDPR Article 8 the age of digital consent ranges from 13 to 16; decide whether teens in those countries need parental consent or a higher minimum age. The age check is self-declared and cannot verify age, and the 18+ limits are enforced by the app, not by database rules. The developer cannot read or delete another person’s private log from inside the app; decide how a parent’s deletion request would be completed (for example with the platform’s help) before launch.' },
+      ]],
+      ['Security', [
+        'What the app does: the page and everything it loads use HTTPS; the interface library is checked against a fixed fingerprint before it runs; your private data sits behind access rules enforced by the platform database, so other people cannot read it through the app; each person can write only their own leaderboard entry, consent record and requests; text people enter is displayed as text, never as code; leaderboard data from others is checked before it is shown; and the app never sees or stores passwords, because claude.ai handles sign-in.',
+        'What we cannot promise: no system is perfectly secure. Encryption of stored data, backups, server logs and rate limits are handled by the hosting platform and are not described here.',
+        { note: 'Confirm encryption at rest, backup security and access logging with Anthropic’s documentation before making any statement about them. Arrange security testing before public launch.' },
+      ]],
+      ['International transfers', [
+        'Your data is processed by the hosting platform and the services above, which may be located in other countries.',
+        { note: 'Identify where data is stored and processed, and the transfer mechanism (for example Standard Contractual Clauses).' },
+      ]],
+      ['Changes to this policy', [
+        'Each version has a number and an effective date. For a significant change, Lift Ledger asks you to review and accept the new version before you continue. For smaller changes, it shows a notice. Past versions are listed under Legal → Change history.',
+      ]],
+      ['Contact', [
+        `For privacy questions or requests, ${contactLine()}.`,
+        { note: 'Set a monitored contact address (CONTACT_EMAIL) and name the person responsible for privacy requests.' },
+      ]],
+    ],
+  },
+  terms: {
+    title: 'Terms of Service', v: '1.0', eff: LEGAL_EFFECTIVE,
+    summary: 'The rules for using Lift Ledger, what you own, and what we are and are not responsible for.',
+    sections: [
+      ['Agreement', [
+        'These terms apply when you use Lift Ledger. By choosing "Agree and continue" you accept them. If you do not agree, do not use the app.',
+        `You must be at least ${MIN_AGE} to use Lift Ledger. If you are under ${SOCIAL_MIN_AGE}, read these terms with a parent or guardian. Rankings and public profiles are available only to people ${SOCIAL_MIN_AGE} and over.`,
+      ]],
+      ['The service', [
+        'Lift Ledger is a free workout tracker for logging training, viewing analytics, following programs and, if you choose, comparing results on leaderboards. It runs as a page on claude.ai and needs a claude.ai account; claude.ai’s own terms also apply to that account.',
+        'We may change, add or remove features. We will try to give notice before removing features you rely on and give you a chance to export your data.',
+        { note: 'Decide on a minimum notice period before discontinuing the service.' },
+      ]],
+      ['Your account', [
+        'Sign-in, passwords and account security are handled by claude.ai, not by Lift Ledger. Keep your claude.ai account secure. You are responsible for activity in Lift Ledger under your account. Tell us if you think someone has used it without permission.',
+      ]],
+      ['Acceptable use', [
+        'Use Lift Ledger only for lawful, personal training purposes. Do not:',
+        { ul: [
+          'try to read, change or delete other people’s data, or get around access rules;',
+          'post false, automated or manipulated leaderboard results;',
+          'interfere with the page, overload it, or probe it for weaknesses except under the security reporting guidelines;',
+          'copy, scrape or resell the app or other people’s leaderboard information;',
+          'use the request form to send spam, abuse or unlawful content;',
+          'use Lift Ledger in breach of claude.ai’s terms.',
+        ] },
+      ]],
+      ['Your content', [
+        'You own the workouts, notes and other information you enter. You let us store and process it only to provide Lift Ledger to you. If you join rankings, you also let us show your leaderboard summary to people who can open this page until you leave rankings or delete your data.',
+      ]],
+      ['Our content and intellectual property', [
+        'Lift Ledger’s code, design, movement figures, body maps, exercise descriptions and program templates were created for Lift Ledger, and they belong to the developer. Open-source components are used under their own licenses, listed under Legal → Licenses. Do not copy Lift Ledger’s name, branding or design for your own products.',
+      ]],
+      ['Health and safety', [
+        'Lift Ledger does not give medical advice. Read the Health and Safety Notice, which is part of these terms.',
+      ]],
+      ['Rankings', [
+        'Rankings are optional and off by default. Log your training honestly. We may remove leaderboard entries that look false or abusive. Rankings compare logged numbers only. They are not medical, clinical or fitness assessments.',
+      ]],
+      ['Fees', [
+        'Lift Ledger is free. There are no subscriptions, renewals or in-app purchases. If paid features are ever introduced, the price, renewal, cancellation and refund terms will be shown and you will be asked to agree before anything is charged. Paid terms will not apply to past use.',
+      ]],
+      ['Suspension and termination', [
+        'You can stop using Lift Ledger at any time and delete your data in Profile → Privacy & data.',
+        'If you break these terms, the developer may remove your leaderboard entry or remove your access to this page through its sharing settings. Where reasonable, we will tell you why. The developer may also discontinue Lift Ledger; deleting this page erases its database.',
+      ]],
+      ['Disclaimers', [
+        'To the extent the law allows, Lift Ledger is provided "as is" and "as available", without warranties of accuracy, availability or fitness for a particular purpose. Estimates, rankings and recommendations may be wrong. This does not affect rights you have under consumer law that cannot be excluded.',
+      ]],
+      ['Limitation of liability', [
+        'To the extent the law allows, the developer is not liable for indirect or consequential losses, or for loss of data you did not export. Nothing in these terms limits liability that cannot be limited by law, including liability for death or personal injury caused by negligence, or for fraud.',
+        { note: 'Have counsel draft liability caps and confirm they are enforceable for consumers in each target market.' },
+      ]],
+      ['Disputes', [
+        'If something goes wrong, contact us first so we can try to fix it. These terms are governed by the laws of [jurisdiction to be confirmed], but you keep any mandatory protections of the country where you live.',
+        { note: 'Choose the governing law and venue. Decide whether arbitration or class-action waivers are appropriate and enforceable; for many consumers in the EU and UK they are not.' },
+      ]],
+      ['Changes to these terms', [
+        'Each version has a number and an effective date. For a significant change, Lift Ledger asks you to review and accept the new version before you continue. Earlier versions are listed under Legal → Change history.',
+      ]],
+      ['Contact', [`Questions about these terms: ${contactLine()}.`]],
+    ],
+  },
+  health: {
+    title: 'Health and Safety Notice', v: '1.0', eff: LEGAL_EFFECTIVE,
+    summary: 'Lift Ledger is a logging and education tool, not a medical service. Exercise carries risks.',
+    sections: [
+      ['What Lift Ledger is for', [
+        'Lift Ledger is designed for logging workouts, learning about training and tracking performance.',
+        'It does not provide medical diagnosis, treatment or individual medical advice, and it is not a medical device.',
+      ]],
+      ['Estimates can be wrong', [
+        'Estimated one-rep maxes, strength totals, muscle-group workload, rankings, tiers, program suggestions and progress figures are calculated from what you log using general formulas. They may be inaccurate for you and should not be treated as a measure of health or fitness.',
+      ]],
+      ['Exercise carries risk', [
+        'Physical exercise carries inherent risks, including injury. Choose exercises, loads and volumes that suit your abilities, use proper technique and equipment, and progress gradually.',
+        'Talk to a doctor or other qualified professional before starting or changing a program when appropriate, especially if you have a medical condition, are pregnant, are recovering from injury or illness, or are new to exercise.',
+        'Stop exercising and get medical help if you feel chest pain or pressure, faintness or dizziness, unusual shortness of breath, or sharp or worsening pain.',
+      ]],
+      ['No guaranteed results', ['Fitness results depend on many factors and are not guaranteed.']],
+      ['Your rights are not affected', [
+        'This notice explains the limits of the app. It does not remove any responsibility the developer has under the law.',
+      ]],
+    ],
+  },
+  healthdata: {
+    title: 'Consumer Health Data Notice', v: '1.0', eff: LEGAL_EFFECTIVE,
+    summary: 'For residents of Washington, Nevada and other places with consumer health data laws.',
+    sections: [
+      ['What this covers', [
+        'Some laws, including Washington’s My Health My Data Act, treat information about your body and fitness as consumer health data. In Lift Ledger that may include your workout log, bodyweight and training profile.',
+        { note: 'Washington’s law may require this notice to be a separate document linked prominently from the home page. Confirm scope and placement with counsel.' },
+      ]],
+      ['What we collect, why, and from whom', [
+        'We collect only what you enter yourself: workouts, exercises, plans, bodyweight and training profile. We use it only to provide the features you ask for. The Privacy Policy lists every category.',
+      ]],
+      ['Sharing', [
+        'We share consumer health data only when you consent: if you join rankings, the summaries you choose are shown to people who can open this page. Anthropic hosts and stores the data. We do not sell consumer health data.',
+      ]],
+      ['Your rights', [
+        `You can see, download and delete your data in Profile → Privacy & data, and withdraw consent by leaving rankings. To ask a question or appeal a decision, ${contactLine()}.`,
+      ]],
+    ],
+  },
+  security: {
+    title: 'Security and Vulnerability Reporting', v: '1.0', eff: LEGAL_EFFECTIVE,
+    summary: 'How Lift Ledger protects data, how to report a vulnerability, and what happens after a security incident.',
+    sections: [
+      ['How Lift Ledger protects data', [
+        { ul: [
+          'HTTPS for the page and everything it loads.',
+          'An integrity check on the interface library, so a tampered copy will not run.',
+          'Access rules enforced by the platform database: your log is readable only by you; each person can write only their own leaderboard entry, consent record and requests; nobody except you and the developer can read your consent record and requests.',
+          'No passwords or API keys in the app: claude.ai handles sign-in, and the page contains no secrets.',
+          'Text you enter is displayed as text, never run as code. Leaderboard data from other people is checked and limited to known fields and plausible numbers. Exported CSV cells that could be read as spreadsheet formulas are neutralised.',
+          'The request form accepts up to ' + REQ_PER_DAY + ' requests a day and ' + REQ_MAX_ITEMS + ' in total per person. This limit is checked in the app, not by the server.',
+        ] },
+        'Encryption of stored data, backups, server logs and rate limits are handled by the hosting platform. We do not describe them here because we cannot verify them from inside the app.',
+        { note: 'Confirm platform-level protections with Anthropic’s documentation. Complete the security testing items in the pre-launch checklist.' },
+      ]],
+      ['Reporting a vulnerability', [
+        `To report a security issue, ${CONTACT_EMAIL ? `email ${CONTACT_EMAIL} or ` : ''}use the request form in Profile → Privacy & data and choose "Security vulnerability report". Describe what you found and how to reproduce it. Do not include other people’s data.`,
+        'Please test only against your own account, do not access or change other people’s data, and give us reasonable time to fix the issue before sharing it.',
+        { note: 'Decide on safe-harbor wording for good-faith research and on target response times.' },
+      ]],
+      ['When something goes wrong', [
+        'If we learn of unauthorized access to or disclosure of personal information, we will contain it, investigate what happened and who is affected, fix the cause, and notify affected people and authorities when the law requires it. Lift Ledger records important privacy events in your own account (for example consent changes, exports and deletions) so you can review them in Profile → Privacy & data.',
+        { note: 'The full process is in compliance/INCIDENT-RESPONSE.md. Breach notification deadlines vary (for example 72 hours to a GDPR authority) and must be confirmed.' },
+      ]],
+    ],
+  },
+  licenses: {
+    title: 'Licenses and Attributions', v: '1.0', eff: LEGAL_EFFECTIVE,
+    summary: 'Third-party code and fonts used by Lift Ledger, and their licenses.',
+    sections: [
+      ['Open-source components', [
+        { table: [['Component', 'Use', 'License', 'Copyright'],
+          ['htm 3.1.1', 'Interface templates', 'Apache License 2.0', '© 2018 Google Inc.'],
+          ['Preact 10 (bundled in htm’s standalone build)', 'Interface rendering', 'MIT License', '© 2015-present Jason Miller'],
+          ['Barlow Condensed', 'Display font', 'SIL Open Font License 1.1', '© 2017 The Barlow Project Authors'],
+          ['IBM Plex Sans and IBM Plex Mono', 'Text and number fonts', 'SIL Open Font License 1.1', '© 2017 IBM Corp., Reserved Font Name "Plex"'],
+        ] },
+        'Full license texts are kept with the project in compliance/THIRD-PARTY-LICENSES.md and are available from each project: github.com/developit/htm, github.com/preactjs/preact, github.com/jpt/barlow and github.com/IBM/plex.',
+      ]],
+      ['Services', [
+        'jsDelivr delivers the interface library. Google Fonts delivers the fonts. claude.ai, operated by Anthropic, hosts the page, handles sign-in and stores data.',
+      ]],
+      ['Original content', [
+        'Icons, movement figures, body maps, charts, exercise descriptions, muscle mappings and program templates in Lift Ledger were created for it. They do not copy other products’ graphics or branding. Program templates follow common, generic training structures (such as full body, upper/lower and push/pull/legs).',
+      ]],
+    ],
+  },
+};
+const LEGAL_ORDER = ['privacy', 'terms', 'health', 'healthdata', 'security', 'licenses'];
+// Every published version, newest first. A major-version entry must say what changed in plain words.
+const LEGAL_HISTORY = [
+  { date: LEGAL_EFFECTIVE, docs: { privacy: '1.0', terms: '1.0', health: '1.0', healthdata: '1.0', security: '1.0', licenses: '1.0' }, summary: 'First published drafts, introduced together with an age check, consent records, data download and deletion, a request form, and new protections for rankings: nothing pre-selected, 18 and over only, and no comparisons with fewer than 5 people.' },
+];
+const vMajor = v => parseInt(String(v || '0').split('.')[0], 10) || 0;
+const vCmp = (a, b) => { const pa = String(a || '0').split('.').map(Number), pb = String(b || '0').split('.').map(Number); return (pa[0] - pb[0]) || ((pa[1] || 0) - (pb[1] || 0)); };
+const legalOf = settings => (settings && settings.legal && typeof settings.legal === 'object' ? settings.legal : {});
+// 'age' when the age question is unanswered, 'docs' when a required document is missing or has a new major version, else null.
+function gateStage(settings) {
+  const l = legalOf(settings);
+  if (!l.age || !['adult', 'teen'].includes(l.age.band)) return 'age';
+  for (const d of REQUIRED_DOCS) { const a = l[d]; if (!a || !a.v || vMajor(a.v) < vMajor(LEGAL_DOCS[d].v)) return 'docs'; }
+  return null;
+}
+// Required documents with a newer minor version than the one accepted or last seen.
+function legalUpdates(settings) {
+  const l = legalOf(settings), seen = l.seen || {};
+  return LEGAL_ORDER.filter(d => { const have = (l[d] && l[d].v) || seen[d]; return have && vCmp(LEGAL_DOCS[d].v, have) > 0 && vCmp(LEGAL_DOCS[d].v, seen[d]) > 0; });
+}
+// Anyone under 18 by their own answer, or who picked "Under 18" in Profile, is treated as a minor.
+const isMinor = settings => { const l = legalOf(settings); return (l.age && l.age.band === 'teen') || ((settings && settings.profile) || {}).ageGroup === 'u18'; };
+function readAgeBlock() { try { const v = JSON.parse(lsGet(AGE_BLOCK_KEY) || 'null'); return !!(v && v.blocked); } catch (e) { return false; } }
+const fmtStamp = t => { const d = new Date(t); return isNaN(d.getTime()) ? '—' : d.toLocaleString('en-US', { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }); };
+// Consent records and requests come back from the shared database: keep only known fields.
+function cleanConsent(d) {
+  if (!d || typeof d !== 'object') return null;
+  const at = v => (typeof v === 'number' && isFinite(v) ? v : null);
+  const docs = {};
+  for (const k of LEGAL_ORDER) { const a = d.docs && d.docs[k]; if (a && typeof a.v === 'string' && at(a.at)) docs[k] = { v: a.v.slice(0, 8), at: a.at }; }
+  const history = Array.isArray(d.history) ? d.history.filter(h => h && typeof h.k === 'string' && at(h.at)).slice(-100).map(h => ({ k: h.k.slice(0, 24), granted: !!h.granted, v: typeof h.v === 'string' ? h.v.slice(0, 8) : null, at: h.at })) : [];
+  return { docs, minimumAge: d.minimumAge === true, ageAt: at(d.ageAt), history };
+}
+function cleanRequests(d) {
+  const items = d && Array.isArray(d.items) ? d.items : [];
+  return items.filter(i => i && typeof i.msg === 'string' && typeof i.at === 'number').slice(-REQ_MAX_ITEMS).map(i => ({
+    id: String(i.id || '').slice(0, 24), kind: REQ_LABEL[i.kind] ? i.kind : 'other', msg: i.msg.slice(0, REQ_MAX_LEN), at: i.at,
+    status: i.status === 'closed' ? 'closed' : i.status === 'answered' ? 'answered' : 'open', reply: typeof i.reply === 'string' ? i.reply.slice(0, REQ_MAX_LEN) : '', repliedAt: typeof i.repliedAt === 'number' ? i.repliedAt : null,
+  }));
+}
+// Everything Lift Ledger holds about this person, as one JSON document.
+function buildExport(S, extra) {
+  const prefs = {};
+  try { for (let i = 0; i < window.localStorage.length; i++) { const k = window.localStorage.key(i); if (k && k.startsWith('ll.')) prefs[k] = lsGet(k); } } catch (e) { /* ignore */ }
+  let draft = null;
+  try { draft = JSON.parse(lsGet(DRAFT_KEY) || 'null'); } catch (e) { draft = null; }
+  return JSON.stringify({
+    format: 'lift-ledger-export', formatVersion: 1, exportedAt: new Date().toISOString(),
+    about: 'Everything Lift Ledger stores about you. Weights are in the unit each workout was logged in (see each workout’s "unit").',
+    storage: S.mode === 'db' ? 'app database on claude.ai' : 'this browser',
+    account: { internalId: S.myId },
+    settings: S.settings, workouts: S.workouts, exercises: S.exercises, plans: S.plans,
+    consentRecord: extra.consent || null, leaderboardEntry: extra.board || null, requests: extra.requests || [],
+    thisBrowser: { unsavedDraft: draft, displayPreferences: prefs },
+  }, null, 2);
+}
+// Lift Ledger's keys in this browser: the draft and display settings, or (all) everything it saved here.
+// The under-age flag stays so the age check can't be bypassed by deleting data.
+function clearDeviceData(all) {
+  const keys = [];
+  try { for (let i = 0; i < window.localStorage.length; i++) { const k = window.localStorage.key(i); if (k && (k.startsWith('ll.') || k === DRAFT_KEY || (all && k.startsWith('liftledger.'))) && k !== AGE_BLOCK_KEY) keys.push(k); } } catch (e) { /* ignore */ }
+  keys.forEach(lsDel);
+  return keys.length;
+}
+
+const consentState = c => ({ rankings: !!c.enabled, publicProfile: !!c.enabled && c.visibility === 'public', shareDemo: !!c.enabled && !!c.shareDemo, relative: !!c.enabled && !!c.relative });
+function consentChanges(prev, next) {
+  const a = consentState(prev), b = consentState(next);
+  return Object.keys(CONSENT_LABEL).filter(k => a[k] !== b[k]).map(k => ({ k, granted: b[k], v: LEGAL_DOCS.privacy.v }));
+}
+// Privacy activity: a short private log of consent changes, downloads and deletions, kept in the person's own settings.
+function withActivity(settings, events) {
+  if (!events || !events.length) return settings;
+  const at = Date.now();
+  return { ...settings, activity: [...(Array.isArray(settings.activity) ? settings.activity : []), ...events.map(e => ({ k: e.k, d: String(e.d || '').slice(0, 160), at }))].slice(-40) };
 }
 
 /* ---------------- chart primitives ---------------- */
@@ -1687,7 +2244,7 @@ const SECTIONS = [
   { id: 'workouts', label: 'Workouts', icon: () => Ic.bell(), routes: ['log', 'history', 'programs', 'exercises'], to: 'log' },
   { id: 'progress', label: 'Progress', icon: () => Ic.chart(), routes: ['analytics', 'visual'], to: 'analytics' },
   { id: 'rankings', label: 'Rankings', icon: () => Ic.podium(), routes: ['rankings'], to: 'rankings', optional: true },
-  { id: 'profile', label: 'Profile', icon: () => Ic.user(), routes: ['profile'], to: 'profile' },
+  { id: 'profile', label: 'Profile', icon: () => Ic.user(), routes: ['profile', 'data', 'legal'], to: 'profile' },
 ];
 const lastSub = { workouts: 'log', progress: 'analytics' };
 const sectionOf = route => SECTIONS.find(s => s.routes.includes(route)) || SECTIONS[0];
@@ -1704,7 +2261,7 @@ function Rail({ app }) {
     <div class="brand">${BrandMark()}<span class="brand-name">Lift Ledger</span></div>
     <a class="btn primary rail-cta" href="#log">${Ic.plus()} ${draftHasContent(app.draft) ? 'Resume workout' : 'Start workout'}</a>
     ${visibleSections(app).map(s => html`<button type="button" class=${'nav-item' + (cur === s.id ? ' on' : '')} aria-current=${cur === s.id ? 'page' : null} onClick=${() => goSection(app, s)}>${s.icon()}<span>${s.label}</span></button>`)}
-    <div class="rail-foot"><${StorageStatus} mode=${app.S.mode}/></div>
+    <div class="rail-foot"><${StorageStatus} mode=${app.S.mode}/><${LegalLinks} app=${app}/></div>
   </nav>`;
 }
 function TabBar({ app }) {
@@ -1751,6 +2308,9 @@ function Banners({ app }) {
   const out = [];
   if (S.notice) out.push(html`<div class="banner bad"><div class="txt">${S.notice}</div></div>`);
   if (S.mode === 'local' && (app.route === 'dashboard' || app.route === 'profile')) out.push(html`<div class="banner warn"><div class="txt"><strong>Saving in this browser only.</strong> Open Lift Ledger on claude.ai while signed in to keep your log in your account’s database.</div></div>`);
+  if (app.route === 'dashboard' || app.route === 'profile') out.push(html`<${PolicyUpdateBanner} app=${app}/>`);
+  const openReq = S.isOwner ? S.inbox.reduce((n, x) => n + x.items.filter(r => r.status === 'open').length, 0) : 0;
+  if (openReq && app.route === 'dashboard') out.push(html`<div class="banner warn"><div class="txt"><strong>${plural(openReq, 'open request')} from people using Lift Ledger.</strong> Privacy requests can have legal deadlines.</div><a class="btn sm" href="#data">Open requests</a></div>`);
   if (model.sampleWorkouts > 0 && app.route === 'dashboard') {
     out.push(model.showSample
       ? html`<div class="banner"><div class="txt"><span class="chip sample">Sample</span> <strong>${plural(model.sampleWorkouts, 'sample workout')}</strong> from a demo training block are shown so the charts have something to draw. They’re tagged Sample everywhere and kept apart from what you log.</div><div class="row"><button class="btn sm" type="button" onClick=${() => app.actions.saveSettings({ showSample: false })}>Hide sample</button><button class="btn sm ghost" type="button" onClick=${() => app.actions.deleteSample()}>Delete sample data</button></div></div>`
@@ -1916,7 +2476,7 @@ function Dashboard({ app }) {
   for (let k = 0; k < 520; k++) { const s = addDays(wk, -7 * k); if (sumRange(model, ymd(s), ymd(addDays(s, 6))).workouts > 0) streak++; else if (k > 0) break; }
   const recent = model.ws.slice(-4).reverse();
   const head = html`<${PageHead} app=${app} title="Home" sub=${today.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}/>`;
-  if (!model.ws.length) return html`${head}<${Banners} app=${app}/><${RankPrompt} app=${app}/><div class="stack"><${TodayCard} app=${app}/><${HowItWorks}/></div>`;
+  if (!model.ws.length) return html`${head}<${Banners} app=${app}/><${RankPrompt} app=${app}/><div class="stack"><${TodayCard} app=${app}/><${HowItWorks}/></div><${SafetyNote} app=${app}/><div class="home-foot"><${LegalLinks} app=${app}/></div>`;
   return html`${head}<${Banners} app=${app}/><${RankPrompt} app=${app}/>
     <div class="cols">
       <div class="stack">
@@ -1939,7 +2499,7 @@ function Dashboard({ app }) {
           <${MyRankings} app=${app}/>
         <//>
       </div>
-    </div>`;
+    </div><div class="home-foot"><${LegalLinks} app=${app}/></div>`;
 }
 
 function ProfilePage({ app }) {
@@ -1947,7 +2507,9 @@ function ProfilePage({ app }) {
   const pp = { goal: 'general', level: 'beginner', days: 3, ...(S.settings.planPrefs || {}) };
   const prof = S.settings.profile || {};
   const setPP = patch => app.actions.saveSettings({ planPrefs: { ...pp, ...patch } });
+  const teen = (legalOf(S.settings).age || {}).band === 'teen';
   return html`<${PageHead} app=${app} title="Profile" sub="Goals, preferences and privacy"/>
+    <${SubNav} app=${app}/>
     <${Banners} app=${app}/>
     <div class="cols">
       <div class="stack">
@@ -1956,8 +2518,8 @@ function ProfilePage({ app }) {
             <div class="field"><span>Main goal</span><${Seg} label="Main goal" value=${pp.goal} options=${Object.entries(GOAL_LABEL)} onChange=${v => setPP({ goal: v })}/></div>
             <div class="field"><span>Experience</span><${Seg} label="Experience" value=${pp.level} options=${[['beginner', 'Beginner'], ['intermediate', 'Intermediate']]} onChange=${v => setPP({ level: v })}/><span class="hint">Beginner means less than about a year of regular strength training.</span></div>
             <div class="field"><span>Days you can train each week</span><${Seg} cls="data" label="Days per week" value=${pp.days} options=${[2, 3, 4, 5, 6].map(d => [d, String(d)])} onChange=${v => setPP({ days: v })}/></div>
-            <label class="field"><span>Age group (optional)</span><select class="input" id="profile-age" style="max-width:240px" value=${AGE_GROUPS.some(g => g[0] === prof.ageGroup) ? prof.ageGroup : ''} onChange=${e => app.actions.saveSettings({ profile: { ...prof, ageGroup: e.target.value || null } })}><option value="">Prefer not to say</option>${AGE_GROUPS.map(([id, l]) => html`<option value=${id}>${l}</option>`)}</select>
-              <span class="hint">Stays private unless you turn on rankings and choose to share it for age-group comparisons.</span></label>
+            <label class="field"><span>Age group (optional)</span><select class="input" id="profile-age" style="max-width:240px" value=${AGE_GROUPS.some(g => g[0] === prof.ageGroup) ? prof.ageGroup : ''} onChange=${e => app.actions.saveSettings({ profile: { ...prof, ageGroup: e.target.value || null } })}><option value="">Prefer not to say</option>${AGE_GROUPS.map(([id, l]) => html`<option value=${id} disabled=${teen && id !== 'u18'}>${l}</option>`)}</select>
+              <span class="hint">${isMinor(S.settings) ? `Private. Rankings, public profiles and sharing are for people ${SOCIAL_MIN_AGE} and over, so they stay off.` : 'Stays private unless you turn on rankings and choose to share it for age-group comparisons.'}</span></label>
           </div>
           <div class="row" style="margin-top:16px"><a class="btn" href="#programs">${Ic.plan()} Programs that fit this profile</a></div>
         </section>
@@ -2038,6 +2600,8 @@ function EditorExercise({ app, entry, idx, count, draft }) {
   const bw = isBw(x);
   const prev = prevSession(model, entry.exerciseId, draft);
   const [showHist, setShowHist] = useState(false);
+  const [menuKey, setMenuKey] = useState(null);
+  const selectAll = e => { const t = e.target; setTimeout(() => { try { t.select(); } catch (err) { /* ignore */ } }, 0); };
   const rowsN = entry.sets.length, doneN = entry.sets.filter(s => s.d).length, allDone = rowsN > 0 && doneN === rowsN;
   const upd = fn => setDraft(d => ({ ...d, exercises: d.exercises.map(e => (e.key === entry.key ? fn(e) : e)) }));
   const updSet = (key, patch) => upd(e => ({ ...e, sets: e.sets.map(s => (s.key === key ? { ...s, ...patch } : s)) }));
@@ -2045,6 +2609,7 @@ function EditorExercise({ app, entry, idx, count, draft }) {
   // One tap copies last session's weights and reps into every empty row; ticking still marks each set done.
   const fillLast = () => upd(e => ({ ...e, sets: e.sets.map((s, i) => { const p = prevFor(i); return p && s.w === '' && s.r === '' ? { ...s, w: p.w > 0 ? plainNum(p.w) : '', r: String(p.r) } : s; }) }));
   const hist = (model.byEx.get(entry.exerciseId) || []).filter(s => s.workoutId !== draft.id && s.doneCount).slice(-3).reverse();
+  const dupSet = s => upd(e => { const at = e.sets.findIndex(t => t.key === s.key), sets = e.sets.slice(); sets.splice(at + 1, 0, { key: rk(), w: s.w, r: s.r, d: false }); return { ...e, sets, collapsed: false }; });
   const move = dir => setDraft(d => { const ex = d.exercises.slice(); const j = idx + dir; if (j < 0 || j >= ex.length) return d; [ex[idx], ex[j]] = [ex[j], ex[idx]]; return { ...d, exercises: ex }; });
   const toggle = (s, i) => {
     if (s.d) { updSet(s.key, { d: false }); return; }
@@ -2056,32 +2621,33 @@ function EditorExercise({ app, entry, idx, count, draft }) {
     const rv = Number(r), wv = w === '' ? 0 : Number(w);
     if (!Number.isInteger(rv) || rv < 1) { app.toast(`Enter reps for set ${i + 1} first.`, 'bad'); return; }
     if (!bw && !(wv > 0)) { app.toast(`Enter the weight for set ${i + 1} first.`, 'bad'); return; }
-    updSet(s.key, { w, r, d: true });
+    // Ticking the last open set folds the exercise away to keep the list short; tap its name to reopen.
+    upd(e => { const sets = e.sets.map(t => (t.key === s.key ? { ...t, w, r, d: true } : t)); return { ...e, sets, collapsed: sets.every(t => t.d) ? true : e.collapsed }; });
   };
   const addSet = () => upd(e => { const l = e.sets[e.sets.length - 1]; return { ...e, sets: [...e.sets, { key: rk(), w: l ? l.w : '', r: l ? l.r : '', d: false }] }; });
   return html`<div class=${'ex-card' + (allDone ? ' complete' : '')}>
     <div class="ex-card-head">
-      <div style="min-width:0"><div class="ex-title">${visualOn(app) ? html`<${MoveFigure} pattern=${patternOf(x)} size=${34} animate=${false}/>` : null}<span class="ticker">${x.ticker || '—'}</span>${x.name}${bw ? html`<span class="chip plain">Bodyweight</span>` : null}${doneN ? html`<span class=${'chip ' + (allDone ? 'done' : 'plain')}>${allDone ? '✓ ' : ''}${doneN}/${rowsN} done</span>` : null}</div>
-        <div class="ex-last">${prev ? `Last · ${fmtDShort(prev.date)}: ${doneSetsText(prev, { ...F, u: draft.unit })}` : 'First time logging this exercise'}</div>${entry.target ? html`<div class="ex-last" style="color:var(--fg-2)">Plan target: ${entry.target}</div>` : null}</div>
+      <div style="min-width:0"><button class="ex-title ex-toggle" type="button" aria-expanded=${entry.collapsed ? 'false' : 'true'} title=${entry.collapsed ? 'Show sets' : 'Hide sets'} onClick=${() => upd(e => ({ ...e, collapsed: !e.collapsed }))}>${visualOn(app) ? html`<${MoveFigure} pattern=${patternOf(x)} size=${34} animate=${false}/>` : null}<span class="ticker">${x.ticker || '—'}</span>${x.name}${bw ? html`<span class="chip plain">Bodyweight</span>` : null}${doneN ? html`<span class=${'chip ' + (allDone ? 'done' : 'plain')}>${allDone ? '✓ ' : ''}${doneN}/${rowsN} done</span>` : null}</button>
+        <div class="ex-last">${prev ? `Last · ${fmtDShort(prev.date)}: ${doneSetsText(prev, { ...F, u: draft.unit })}` : 'First time logging this exercise'}</div>${entry.target ? html`<div class="ex-last" style="color:var(--fg-2)">Plan target: ${entry.target}</div>` : null}${entry.collapsed ? html`<div class="ex-last" style="color:var(--fg-2)">${entry.sets.filter(t => t.d).map(t => `${t.w || 'BW'}×${t.r}`).join(', ') || 'No sets done yet'} · tap the name to edit</div>` : null}</div>
       <div class="row" style="flex-wrap:nowrap;gap:4px">
         <button class="icon-btn sm" type="button" aria-label="Move up" disabled=${idx === 0} onClick=${() => move(-1)}>${Ic.up()}</button>
         <button class="icon-btn sm" type="button" aria-label="Move down" disabled=${idx === count - 1} onClick=${() => move(1)}>${Ic.down()}</button>
         <button class="icon-btn sm" type="button" aria-label=${`Remove ${x.name}`} onClick=${() => setDraft(d => ({ ...d, exercises: d.exercises.filter(e => e.key !== entry.key) }))}>${Ic.trash()}</button>
       </div>
     </div>
-    <div class="set-grid set-hdr" aria-hidden="true"><span>Set</span><span>Previous</span><span>${bw ? `+${draft.unit}` : draft.unit}</span><span>Reps</span><span></span><span></span></div>
+    ${entry.collapsed ? null : html`<div class="set-grid set-hdr" aria-hidden="true"><span>Set</span><span>Previous</span><span>${bw ? `+${draft.unit}` : draft.unit}</span><span>Reps</span><span></span><span></span></div>
     ${entry.sets.map((s, i) => {
       const p = prevFor(i);
-      return html`<div class=${'set-grid set-row' + (s.d ? ' done' : '')} key=${s.key}>
+      return html`<div key=${s.key}><div class=${'set-grid set-row' + (s.d ? ' done' : '')}>
         <span class="set-n">${i + 1}</span>
         <button class="prev" type="button" title="Copy previous set" onClick=${() => p && updSet(s.key, { w: p.w > 0 ? plainNum(p.w) : '', r: String(p.r) })}>${p ? (bw ? (p.w > 0 ? `+${fmtNum(p.w, 1)}×${p.r}` : `BW×${p.r}`) : `${fmtNum(p.w, 1)}×${p.r}`) : '—'}</button>
-        <input class="in" inputmode="decimal" autocomplete="off" aria-label=${`Set ${i + 1} ${bw ? 'added weight' : 'weight'} in ${draft.unit}`} placeholder=${p ? (p.w > 0 ? plainNum(p.w) : (bw ? '0' : '')) : (bw ? '0' : '')} value=${s.w}
+        <input class="in" inputmode="decimal" enterkeyhint="next" autocomplete="off" onFocus=${selectAll} onKeyDown=${e => { if (e.key === 'Enter') { e.preventDefault(); const n = e.target.closest('.set-row').querySelectorAll('.in')[1]; if (n) n.focus(); } }} aria-label=${`Set ${i + 1} ${bw ? 'added weight' : 'weight'} in ${draft.unit}`} placeholder=${p ? (p.w > 0 ? plainNum(p.w) : (bw ? '0' : '')) : (bw ? '0' : '')} value=${s.w}
           onInput=${e => { const v = e.target.value.replace(',', '.').replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1').slice(0, 7); updSet(s.key, { w: v, d: s.d && v !== '' ? s.d : (v === '' && !bw ? false : s.d) }); }}/>
-        <input class="in" inputmode="numeric" autocomplete="off" aria-label=${`Set ${i + 1} reps`} placeholder=${p ? String(p.r) : (entry.targetReps ? String(entry.targetReps) : '')} value=${s.r}
+        <input class="in" inputmode="numeric" pattern="[0-9]*" enterkeyhint="done" autocomplete="off" onFocus=${selectAll} onKeyDown=${e => { if (e.key === 'Enter') { e.preventDefault(); const row = e.target.closest('.set-row'), rows = [...e.target.closest('.ex-card').querySelectorAll('.set-row')], nx = rows[rows.indexOf(row) + 1]; if (!s.d) toggle(s, i); if (nx) nx.querySelector('.in').focus(); else e.target.blur(); } }} aria-label=${`Set ${i + 1} reps`} placeholder=${p ? String(p.r) : (entry.targetReps ? String(entry.targetReps) : '')} value=${s.r}
           onInput=${e => { const v = e.target.value.replace(/[^0-9]/g, '').slice(0, 3); updSet(s.key, { r: v, d: v === '' ? false : s.d }); }}/>
         <button class=${'chk' + (s.d ? ' on' : '')} type="button" aria-pressed=${s.d ? 'true' : 'false'} aria-label=${`Mark set ${i + 1} complete`} onClick=${() => toggle(s, i)}>${Ic.check()}</button>
-        <button class="rm" type="button" aria-label=${`Remove set ${i + 1}`} onClick=${() => upd(e => ({ ...e, sets: e.sets.filter(t => t.key !== s.key) }))}>${Ic.x()}</button>
-      </div>`;
+        <button class="rm" type="button" aria-label=${`More actions for set ${i + 1}`} aria-expanded=${menuKey === s.key ? 'true' : 'false'} onClick=${() => setMenuKey(k => (k === s.key ? null : s.key))}>${Ic.more()}</button>
+      </div>${menuKey === s.key ? html`<div class="set-actions"><button class="btn sm" type="button" onClick=${() => { dupSet(s); setMenuKey(null); }}>${Ic.copy()} Duplicate set</button><button class="btn sm danger" type="button" onClick=${() => { upd(e => ({ ...e, sets: e.sets.filter(t => t.key !== s.key) })); setMenuKey(null); }}>${Ic.trash()} Remove set</button></div>` : null}</div>`;
     })}
     <div class="ex-foot">
       <button class="btn sm" type="button" onClick=${addSet}>${Ic.plus()} Add set</button>
@@ -2091,7 +2657,7 @@ function EditorExercise({ app, entry, idx, count, draft }) {
     </div>
     ${showHist ? html`<div class="ex-hist">${hist.length ? hist.map(s => html`<div class="row between" style="flex-wrap:nowrap"><span class="mono muted">${fmtDShort(s.date)}</span><span class="mono" style="text-align:right">${doneSetsText(s, { ...F, u: draft.unit })}</span></div>`) : html`<span class="hint">No earlier sessions of ${x.name}.</span>`}
       ${hist.length ? html`<div><button class="btn sm ghost" type="button" onClick=${() => { app.setExSel(entry.exerciseId); app.nav('exercises'); }}>Full history</button></div>` : null}</div>` : null}
-    ${entry.showNotes ? html`<label class="field" style="margin-top:8px"><span class="sr">Notes for ${x.name}</span><input class="input" maxlength="500" placeholder="Note for this exercise (grip, tempo, how it felt)" value=${entry.notes} onInput=${e => upd(en => ({ ...en, notes: e.target.value }))}/></label>` : null}
+    ${entry.showNotes ? html`<label class="field" style="margin-top:8px"><span class="sr">Notes for ${x.name}</span><input class="input" maxlength="500" placeholder="Note for this exercise (grip, tempo, how it felt)" value=${entry.notes} onInput=${e => upd(en => ({ ...en, notes: e.target.value }))}/></label>` : null}`}
   </div>`;
 }
 
@@ -2100,6 +2666,8 @@ function LogPage({ app }) {
   const [issues, setIssues] = useState([]);
   const [pending, setPending] = useState(null);
   const [saving, setSaving] = useState(false);
+  const [metaOpen, setMetaOpen] = useState(null);
+  const showMeta = metaOpen == null ? !draft.exercises.length : metaOpen;
   const upd = patch => setDraft(d => ({ ...d, ...patch }));
   const dc = draftCat(app, draft);
   const recentTemplates = [];
@@ -2114,6 +2682,7 @@ function LogPage({ app }) {
       if (s.d) { doneSets++; const wKg = toKg(Number(s.w) || 0, draft.unit); liveVol += (Number(s.r) || 0) * (isBw(x) ? model.bwKg + wKg : wKg); }
     }
   }
+  const exDone = draft.exercises.filter(en => en.sets.length && en.sets.every(s => s.d)).length;
   const discard = async () => {
     if (draftHasContent(draft)) { const ok = await app.confirm({ title: draft.editing ? 'Discard changes?' : 'Discard this workout?', body: draft.editing ? 'Your edits will be lost. The saved workout stays as it was.' : 'Everything you entered for this workout will be cleared.', ok: 'Discard', danger: true }); if (!ok) return; }
     setDraft(emptyDraft(S.settings)); setIssues([]); setPending(null);
@@ -2174,7 +2743,7 @@ function LogPage({ app }) {
     <${SubNav} app=${app}/>
     ${S.notice ? html`<div class="banner bad"><div class="txt">${S.notice}</div></div>` : null}
     ${draft.sample ? html`<div class="banner"><div class="txt"><span class="chip sample">Sample</span> You’re editing a sample workout. It stays tagged as sample data after you save.</div></div>` : null}
-    <section class="panel">
+    ${showMeta ? html`<section class="panel">
       <div class="ed-meta">
         <label class="field"><span>Date</span><input class="input" id="workout-date" type="date" max=${todayStr()} value=${draft.date} onInput=${e => upd({ date: e.target.value })}/></label>
         <label class="field"><span>Workout name (optional)</span><input class="input" id="workout-name" maxlength="60" placeholder="e.g. Upper A, Push day" value=${draft.name} onInput=${e => upd({ name: e.target.value })}/></label>
@@ -2187,7 +2756,8 @@ function LogPage({ app }) {
           <option value="">Auto-detect (${CAT[dc.auto].name})</option>${CATS.map(c => html`<option value=${c.id}>${c.name}</option>`)}</select></label>
         <span class="hint">Sets the color this workout keeps in history, calendars and charts.</span>
       </div>
-    </section>
+      ${draft.exercises.length ? html`<div style="margin-top:12px"><button class="btn sm ghost" type="button" onClick=${() => setMetaOpen(false)}>${Ic.up()} Hide details</button></div>` : null}
+    </section>` : html`<button class="ed-summary" type="button" aria-label="Edit workout details" onClick=${() => setMetaOpen(true)}><${CatBadge} id=${dc.eff} sm code/><span class="ed-sum-name">${draft.name || 'Untitled workout'}</span><span class="mono muted">${fmtDShort(draft.date)} · ${draft.unit}</span><span class="ed-sum-edit">${Ic.edit()} Details</span></button>`}
     ${!draft.exercises.length ? html`<${PlanStarter} app=${app}/>` : null}
     ${!draft.exercises.length && recentTemplates.length ? html`<section class="panel section-gap">
       <div class="panel-head"><div><div class="panel-title">Repeat a recent workout</div><div class="panel-sub">Copies exercises and set targets. Tick each set as you finish it.</div></div></div>
@@ -2201,8 +2771,9 @@ function LogPage({ app }) {
     ${pending && pending.kind === 'undone' ? html`<div class="pending" role="alert"><div><strong>${plural(pending.n, 'set')} not marked complete.</strong> Only completed sets count toward volume, reps and records.</div><div class="row"><button class="btn primary" type="button" onClick=${() => doSave({ markAll: true })}>Mark all complete and save</button><button class="btn" type="button" onClick=${() => doSave({ undoneOk: true })}>Save as is</button><button class="btn ghost" type="button" onClick=${() => setPending(null)}>Keep editing</button></div></div>` : null}
     ${pending && pending.kind === 'dup' ? html`<div class="pending" role="alert"><div><strong>This matches ${pending.other.name || 'a workout'} on ${fmtD(pending.other.date)} set for set.</strong> Saving again creates a duplicate entry.</div><div class="row"><button class="btn" type="button" onClick=${() => doSave({ ...pending.opts, undoneOk: true, dupOk: true })}>Save anyway</button><button class="btn ghost" type="button" onClick=${() => setPending(null)}>Cancel</button></div></div>` : null}
     <div class="save-bar">
-      <span class="save-sum"><b>${doneSets}</b>/${totalSets} sets · <b>${fmtCompact(fromKg(liveVol, draft.unit))}</b> ${draft.unit}</span>
-      <button class="btn primary" type="button" disabled=${saving || !draft.exercises.length} onClick=${() => doSave()}>${Ic.check()} ${saving ? 'Saving…' : draft.editing ? 'Update workout' : 'Save workout'}</button>
+      <span class="save-sum"><b>${exDone}</b>/${draft.exercises.length} exercises · <b>${doneSets}</b>/${totalSets} sets · <b>${fmtCompact(fromKg(liveVol, draft.unit))}</b> ${draft.unit}</span>
+      <span class="row" style="flex-wrap:nowrap;gap:6px"><button class="icon-btn" type="button" aria-label="Add exercise" title="Add exercise" onClick=${() => { const el = document.getElementById('exercise-search'); if (el) { el.scrollIntoView({ block: 'center' }); el.focus(); } }}>${Ic.plus()}</button>
+      <button class="btn primary" type="button" disabled=${saving || !draft.exercises.length} onClick=${() => doSave()}>${Ic.check()} ${saving ? 'Saving…' : draft.editing ? 'Update workout' : 'Save workout'}</button></span>
     </div>`;
 }
 
@@ -3047,6 +3618,7 @@ function TypeSection({ app, rb }) {
 const SUBNAV = {
   workouts: [['log', 'Log'], ['history', 'History'], ['programs', 'Plans'], ['exercises', 'Exercises']],
   progress: [['analytics:exercise', 'Exercises'], ['analytics:muscle', 'Muscles'], ['visual', 'Body & sessions']],
+  profile: [['profile', 'Profile'], ['data', 'Privacy & data'], ['legal', 'Legal']],
 };
 function SubNav({ app }) {
   const sec = sectionOf(app.route), items = SUBNAV[sec.id];
@@ -3061,6 +3633,7 @@ const SectionSwitch = ({ app }) => html`<${SubNav} app=${app}/>`;
 /* ---------------- movement figures ---------------- */
 const visualOn = app => app.S.settings.visualMode !== 'simple';
 const REDUCED_MOTION = (() => { try { return window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) { return false; } })();
+const COARSE = (() => { try { return window.matchMedia('(pointer: coarse)').matches; } catch (e) { return false; } })();
 const STAND = { head: [58, 24], sh: [58, 36], hip: [58, 64], knee: [59, 84], ank: [58, 106] };
 // Side-view stick figures in a 120×110 box: pose a → pose b → a. Props are fixed equipment; eq rides on a joint.
 const FIG = {
@@ -3349,7 +3922,7 @@ function VisualPage({ app }) {
       mu.secondary.forEach(m => { roles[m] = 's'; });
       mu.primary.forEach(m => { roles[m] = 'p'; });
       return html`<button class="gcard" type="button" onClick=${() => { app.setExSel(x.id); app.nav('exercises'); }}>
-        <span class="gfig"><${MoveFigure} pattern=${pat} size=${96} animate=${visual} ghost=${true}/><${BodyMap} roles=${roles} size=${108} label=${`${x.name}: ${muscleNames(mu.primary) || 'no muscles assigned'}`}/></span>
+        <span class="gfig"><${MoveFigure} pattern=${pat} size=${96} animate=${visual && !COARSE} ghost=${true}/><${BodyMap} roles=${roles} size=${108} label=${`${x.name}: ${muscleNames(mu.primary) || 'no muscles assigned'}`}/></span>
         <span style="font-weight:600">${x.name}</span><span class="hint">${PATTERN_LABEL[pat]} · ${mu.primary.length ? muscleNames(mu.primary) : 'no muscles assigned'}</span></button>`;
     })}</div>` : html`<p class="hint">Exercises appear here once you add them.</p>`}`;
   if (!model.ws.length) return html`${head}<${SectionSwitch} app=${app} current="visual"/><section class="panel"><div class="empty"><h3>Nothing to draw yet</h3><p>Log a workout to see which muscles you trained, how often you train and how each session was built.</p><a class="btn primary" href="#log">${Ic.plus()} Log a workout</a></div></section>${gallery}`;
@@ -3735,7 +4308,7 @@ function ProgramsPage({ app }) {
   const head = html`<${PageHead} app=${app} title="Programs" sub="Preset splits and your plans"/>`;
   if (editing) return html`${head}<${SectionSwitch} app=${app} current="programs"/><${PlanEditor} app=${app} plan=${editing} onDone=${saved => { setEditing(null); if (saved) setView({ id: saved.id, freq: null }); }}/>`;
   const prog = view ? findProg(app, view.id) : null;
-  if (prog) return html`${head}<${SectionSwitch} app=${app} current="programs"/><${ProgramDetail} app=${app} prog=${prog} freq0=${view.freq} onBack=${() => setView(null)} onEdit=${pl => setEditing(pl)} key=${prog.id}/>`;
+  if (prog) return html`${head}<${SectionSwitch} app=${app} current="programs"/><${ProgramDetail} app=${app} prog=${prog} freq0=${view.freq} onBack=${() => setView(null)} onEdit=${pl => setEditing(pl)} key=${prog.id}/><${SafetyNote} app=${app}/>`;
   const a = activeProg(app);
   const plans = S.plans.slice().sort((x, y) => (y.updatedAt || 0) - (x.updatedAt || 0)).map(planProg);
   return html`${head}<${SectionSwitch} app=${app} current="programs"/>
@@ -3753,7 +4326,7 @@ function ProgramsPage({ app }) {
             : html`<p class="hint">Open a preset and choose Save as my plan to add, remove or swap exercises and change the schedule. Or start from a blank plan.</p>`}
         </section>
       </div>
-    </div>`;
+    </div><${SafetyNote} app=${app}/>`;
 }
 
 /* ---------------- rankings ---------------- */
@@ -3805,14 +4378,14 @@ function DistStrip({ rows, meId, fmt, nameOf }) {
 }
 function RankPrompt({ app }) {
   const { S } = app;
-  if (!rankable(S) || !S.settingsLoaded || compOf(S.settings).enabled || S.settings.rankPrompt === 'answered') return null;
+  if (!rankable(S) || !S.settingsLoaded || compOf(S.settings).enabled || S.settings.rankPrompt === 'answered' || isMinor(S.settings)) return null;
   return html`<div class="banner"><div class="txt"><strong>Optional: competitive rankings.</strong> Compare your lifts, muscle-group training and consistency with other people who use this page. Rankings are off, and Lift Ledger works the same either way.</div>
     <div class="row"><button class="btn sm primary" type="button" onClick=${() => app.setModal({ kind: 'compete', preset: 'enable' })}>Set up rankings</button><button class="btn sm ghost" type="button" onClick=${() => app.actions.saveSettings({ rankPrompt: 'answered' })}>No thanks</button></div></div>`;
 }
 function MyRankings({ app }) {
   const { S, rankData } = app;
   if (!rankData || !compOf(S.settings).enabled) return null;
-  const st = myStandings(rankData.entries, rankData.meId).slice(0, 4);
+  const st = myStandings(rankData.entries, rankData.meId, liveMin(rankData.mode)).slice(0, 4);
   return html`<section class="panel">
     <div class="panel-head"><div><div class="panel-title">Your rankings</div><div class="panel-sub">${rankData.mode === 'live' ? `${plural(rankData.entries.length, 'participant')} on this page` : 'Preview with example lifters'}</div></div><a class="btn sm ghost" href="#rankings">Leaderboards</a></div>
     ${st.length ? html`<div>${st.map(s => html`<${StandRow} app=${app} s=${s}/>`)}</div>` : html`<p class="hint">You’re not on a leaderboard yet. Log a workout with a ranked lift, or open Rankings to preview.</p>`}
@@ -3825,6 +4398,10 @@ function CommunityCard({ app, board }) {
   const joined = board.startsWith('lift:') ? comp.lifts.includes(board.slice(5)) : comp.muscles.includes(board.slice(7));
   if (!joined) return null;
   const rows = rankRows(rankData.entries, board, false);
+  if (rankData.mode === 'live' && rows.length < MIN_GROUP) {
+    return html`<section class="panel"><div class="panel-head"><div><div class="panel-title">Community</div><div class="panel-sub">${boardLabel(board)}</div></div></div>
+      <p class="hint">To protect everyone’s privacy, this leaderboard appears once at least ${MIN_GROUP} people are on it.</p></section>`;
+  }
   const mine = rows.find(r => r.e.id === rankData.meId);
   const t = mine ? tierOf(mine.pct, mine.n) : null;
   const fmt = v => fmtBoardVal(board, v, F, false);
@@ -3844,16 +4421,20 @@ function RankingsBoard({ app }) {
   const myAge = (S.settings.profile || {}).ageGroup, myGoal = (S.settings.planPrefs || {}).goal;
   const cohort = rank.cohort === 'age' && myAge ? 'age' : rank.cohort === 'goal' && myGoal ? 'goal' : 'all';
   const entries = cohort === 'age' ? everyone.filter(e => e.id === meId || e.ageGroup === myAge) : cohort === 'goal' ? everyone.filter(e => e.id === meId || e.goal === myGoal) : everyone;
+  // Privacy: live comparisons need at least MIN_GROUP people so nobody can be picked out of a small group.
+  const live = mode === 'live';
+  const cohortHidden = live && cohort !== 'all' && entries.length < MIN_GROUP;
   const comp = compOf(S.settings);
   const board = BOARD_LABELS[rank.board] ? rank.board : 'score';
   const L = board.startsWith('lift:') ? RANK_LIFTS.find(l => 'lift:' + l.key === board) : null;
   const rel = !!(rank.rel && L && L.kind === 'e1rm');
   const rows = rankRows(entries, board, rel);
   const mine = rows.find(r => r.e.id === meId);
+  const small = live && (cohortHidden || (rows.length > 0 && rows.length < MIN_GROUP));
   const profiles = useProfiles([...new Set(entries.filter(e => e.visibility === 'public' && e.id !== meId).map(e => e.id))]);
   const nameOf = e => entryName(e, meId, profiles);
-  const standings = myStandings(entries, meId);
-  const scoreRow = rankRows(entries, 'score', false).find(r => r.e.id === meId);
+  const standings = myStandings(entries, meId, liveMin(mode));
+  const scoreAll = rankRows(entries, 'score', false), scoreRow = live && scoreAll.length < MIN_GROUP ? null : scoreAll.find(r => r.e.id === meId);
   const st = scoreRow ? tierOf(scoreRow.pct, scoreRow.n) : null;
   const best = standings.slice().sort((a, b) => a.rank - b.rank || b.n - a.n)[0];
   const liveMe = S.board.find(e => e.id === S.myId);
@@ -3870,10 +4451,10 @@ function RankingsBoard({ app }) {
       ? html`<div class="banner warn"><div class="txt"><strong>Preview with example lifters.</strong> These ${getExamples().length} example lifters are generated on this device to show how rankings work. They aren’t real people and nothing about them is stored. Your row uses the workouts shown in the app${model.showSample && model.sampleWorkouts ? ', including sample data' : ''}.</div>${modeSeg}</div>`
       : html`<div class="banner"><div class="txt"><strong>Live:</strong> ${plural(S.board.length, 'participant')} ${S.mode === 'db' ? 'on this page' : 'in this browser'}. Entries come from each person’s own logged workouts; sample data never counts. ${liveMe ? `You appear ${liveMe.visibility === 'public' ? 'with your public profile' : `as ${liveMe.alias}`}, updated ${liveMe.asOf ? fmtD(liveMe.asOf) : 'recently'}.` : 'Log a real workout to get your first ranking.'}</div>${modeSeg}</div>`}
     <div class="kpis" style="margin-bottom:16px">
-      <${Kpi} label="Overall score" value=${scoreRow ? fmtNum(scoreRow.v, 0) : '—'} unit=${scoreRow ? 'pts' : ''} sub=${scoreRow ? (st ? html`<${TierChip} t=${st}/>` : `Tiers appear at ${MIN_TIER_N}+ people`) : 'Needs 2+ people with overall fitness on'}/>
+      <${Kpi} label="Overall score" value=${scoreRow ? fmtNum(scoreRow.v, 0) : '—'} unit=${scoreRow ? 'pts' : ''} sub=${scoreRow ? (st ? html`<${TierChip} t=${st}/>` : `Tiers appear at ${MIN_TIER_N}+ people`) : `Needs ${live ? MIN_GROUP : 2}+ people with overall fitness on`}/>
       <${Kpi} label="Leaderboards joined" value=${standings.length} sub=${`of ${Object.keys(BOARD_LABELS).length} available`}/>
       <${Kpi} label="Best placement" value=${best ? `#${best.rank}` : '—'} sub=${best ? `${best.label} · of ${best.n}` : 'Not ranked yet'}/>
-      <${Kpi} label="Participants" value=${entries.length} sub=${mode === 'live' ? 'opted in' : 'example lifters + you'}/>
+      <${Kpi} label="Participants" value=${cohortHidden ? `<${MIN_GROUP}` : entries.length} sub=${mode === 'live' ? 'opted in' : 'example lifters + you'}/>
     </div>
     <div class="filter-row">
       <label class="grow"><span class="sr">Leaderboard</span><select class="input" id="rank-board" value=${board} onChange=${e => setRank(r => ({ ...r, board: e.target.value }))}>
@@ -3888,15 +4469,22 @@ function RankingsBoard({ app }) {
     <div class="cols">
       <section class="panel">
         <div class="panel-head"><div style="min-width:0"><div class="panel-title">${boardLabel(board)}</div>${board.startsWith('muscle:') ? html`<div style="margin:4px 0"><${AreaTag} m=${board.slice(7)}/></div>` : null}<div class="panel-sub">${boardDesc(board, rel)}</div></div>
-          ${mine ? html`<div class="row" style="align-items:baseline;gap:6px"><span class="rank-num">#${mine.rank}</span><span class="soft">of ${rows.length}</span></div>` : null}</div>
-        ${rows.length >= 2 ? html`<${DistStrip} rows=${rows} meId=${meId} fmt=${fmt} nameOf=${nameOf}/><p class="hint" style="margin:4px 0 10px">Each dot is one person on this leaderboard; you’re the amber dot. Dashed lines mark the 25th, 50th, 75th and 90th percentiles.</p>` : null}
-        ${rows.length ? html`<div class="tbl-wrap"><table class="tbl"><thead><tr><th class="r">#</th><th>Lifter</th><th class="r">${rel ? '× BW' : 'Result'}</th><th>Tier</th><th class="r">Percentile</th></tr></thead>
+          ${mine && !small ? html`<div class="row" style="align-items:baseline;gap:6px"><span class="rank-num">#${mine.rank}</span><span class="soft">of ${rows.length}</span></div>` : null}</div>
+        ${!small && rows.length >= 2 ? html`<${DistStrip} rows=${rows} meId=${meId} fmt=${fmt} nameOf=${nameOf}/><p class="hint" style="margin:4px 0 10px">Each dot is one person on this leaderboard; you’re the amber dot. Dashed lines mark the 25th, 50th, 75th and 90th percentiles.</p>` : null}
+        ${small ? html`<div class="empty"><p>${cohortHidden ? `Fewer than ${MIN_GROUP} people who share your ${cohort === 'age' ? 'age group' : 'goal'} are on the leaderboards, so this comparison is hidden to protect their privacy.` : `To protect everyone’s privacy, results appear once at least ${MIN_GROUP} people are on this leaderboard.`}${mine ? ` Your result: ${fmt(mine.v)}.` : ''}</p>${cohortHidden ? html`<button class="btn sm" type="button" onClick=${() => setRank(r => ({ ...r, cohort: 'all' }))}>Compare with everyone</button>` : null}</div>`
+          : rows.length ? html`<div class="tbl-wrap lb-table-wrap"><table class="tbl no-stack"><thead><tr><th class="r">#</th><th>Lifter</th><th class="r">${rel ? '× BW' : 'Result'}</th><th>Tier</th><th class="r">Percentile</th></tr></thead>
           <tbody>${[...shown, ...extra].map(r => html`<tr class=${r.e.id === meId ? 'me' : ''} style=${stale(r.e) ? 'opacity:.6' : ''}>
             <td class="r">${r.rank}</td>
             <td><div class="who">${r.e.visibility === 'public' && r.e.id !== meId && profiles[r.e.id] ? html`<img src=${profiles[r.e.id].avatarUrl} alt=""/>` : null}<span style="font-weight:500">${nameOf(r.e)}</span>${badge(r.e)}${stale(r.e) ? html`<span class="chip plain" title="Not updated in 30 days">Inactive</span>` : null}</div></td>
             <td class="r">${fmt(r.v)}</td>
             <td>${tierOf(r.pct, r.n) ? html`<${TierChip} t=${tierOf(r.pct, r.n)}/>` : html`<span class="muted">—</span>`}</td>
-            <td class="r">${r.pct == null ? '—' : ordinal(Math.round(r.pct))}</td></tr>`)}</tbody></table></div>`
+            <td class="r">${r.pct == null ? '—' : ordinal(Math.round(r.pct))}</td></tr>`)}</tbody></table></div>
+          <div class="lb-list" role="list">${[...shown, ...extra].map(r => html`<div role="listitem" class=${'lb-row' + (r.e.id === meId ? ' me' : '')} style=${stale(r.e) ? 'opacity:.6' : ''}>
+            <span class="lb-rank">${r.rank}</span>
+            <div style="min-width:0"><div class="who"><span style="font-weight:600">${nameOf(r.e)}</span>${badge(r.e)}${stale(r.e) ? html`<span class="chip plain">Inactive</span>` : null}</div>
+              <div class="lb-meta">${tierOf(r.pct, r.n) ? html`<${TierChip} t=${tierOf(r.pct, r.n)}/>` : null}<span class="mono muted" style="font-size:12px">${r.pct == null ? 'No percentile yet' : `${ordinal(Math.round(r.pct))} percentile`}</span></div></div>
+            <span class="lb-val">${fmt(r.v)}</span>
+          </div>`)}</div>`
           : html`<div class="empty"><p>${board === 'score' ? 'The overall score needs at least two people with overall fitness turned on.' : 'Nobody is on this leaderboard yet.'}</p></div>`}
         ${!joined ? html`<div class="row" style="margin-top:10px"><span class="hint">You haven’t joined this leaderboard.</span><button class="btn sm ghost" type="button" onClick=${() => app.setModal({ kind: 'compete' })}>Choose leaderboards</button></div>` : null}
       </section>
@@ -3909,6 +4497,18 @@ function RankingsBoard({ app }) {
       </div>
     </div>`;
 }
+function RankingsExplainer() {
+  return html`<${Disclosure} id="rank-how" title="How rankings work" sub="What’s compared, how percentiles and tiers are worked out, and how privacy is protected">
+    <section class="panel"><ul class="how-list">
+      <li><b>Strength lifts</b> use your best estimated one-rep max from completed sets in the last 12 months, with the formula chosen in Settings (Epley or Brzycki). The bodyweight view divides it by your bodyweight.</li>
+      <li><b>Pull-ups, dips and push-ups</b> use the most reps in one set without added weight, last 12 months.</li>
+      <li><b>Muscle groups</b> use average weekly weighted sets over the last 4 weeks: full credit when a muscle is a main target, half when it helps.</li>
+      <li><b>Overall</b>: strength total (bench press + back squat + deadlift), average weekly volume and workouts per week over the last 4 weeks. The overall score averages your percentiles on those three.</li>
+      <li><b>Percentile</b> is the share of the other people on a leaderboard you’re ahead of. Ties share a rank. <b>Tiers</b> appear once a leaderboard has ${MIN_TIER_N} or more people.</li>
+      <li><b>Privacy</b>: only these summaries are shared, never workouts, notes, session dates or bodyweight (a bodyweight ratio only if you opt in). Live leaderboards and age or goal comparisons with fewer than ${MIN_GROUP} people are hidden. Sample data never counts.</li>
+      <li><b>Not a health assessment</b>: rankings compare logged numbers. They aren’t medical, clinical or fitness assessments, and estimates can be wrong.</li>
+    </ul></section><//>`;
+}
 function RankingsPage({ app }) {
   const { S } = app;
   const comp = compOf(S.settings);
@@ -3916,18 +4516,28 @@ function RankingsPage({ app }) {
   if (!comp.enabled || !app.rankData) {
     return html`${head}<section class="panel"><div class="empty"><h3>Competitive rankings are off</h3>
       <p>Lift Ledger works the same without them: logging, charts, records and muscle analytics never depend on rankings. Turn them on to compare your lifts, muscle-group training and consistency with other people who use this page. You can leave at any time, and leaving deletes your leaderboard entry.</p>
-      <button class="btn primary" type="button" onClick=${() => app.setModal({ kind: 'compete', preset: 'enable' })}>Turn on rankings</button></div></section>`;
+      ${isMinor(S.settings) ? html`<p class="hint">Rankings are for people ${SOCIAL_MIN_AGE} and over.</p>` : html`<button class="btn primary" type="button" onClick=${() => app.setModal({ kind: 'compete', preset: 'enable' })}>Turn on rankings</button>`}</div></section>`;
   }
-  return html`${head}<${SectionSwitch} app=${app} current="rankings"/><${RankingsBoard} app=${app}/>`;
+  return html`${head}<${SectionSwitch} app=${app} current="rankings"/><${RankingsBoard} app=${app}/><div class="section-gap"><${RankingsExplainer}/></div>
+    <${SafetyNote} app=${app} text="Rankings compare logged numbers. They aren’t medical, clinical or fitness assessments, and estimates can be wrong."/>`;
 }
 function ParticipationModal({ app, preset, onClose }) {
   const { S } = app;
   const cur = compOf(S.settings);
-  const [c, setC] = useState(() => ({ ...cur, enabled: preset === 'enable' ? true : cur.enabled, alias: cur.alias || newAlias() }));
+  // Re-joining keeps the leaderboards picked last time, but optional sharing starts off again: leaving withdrew it.
+  const [c, setC] = useState(() => ({ ...cur, ...(preset === 'enable' && !cur.enabled ? { enabled: true, visibility: 'anonymous', shareDemo: false, relative: false } : {}), alias: cur.alias || newAlias() }));
+  const [agree, setAgree] = useState(false);
+  const minor = isMinor(S.settings);
+  const joining = c.enabled && !cur.enabled;
+  const none = c.enabled && !c.overall && !c.lifts.length && !c.muscles.length;
   const [busy, setBusy] = useState(false);
   const toggle = (field, id) => setC(v => ({ ...v, [field]: v[field].includes(id) ? v[field].filter(k => k !== id) : [...v[field], id] }));
   const hasBw = Number(S.settings.bodyweight) > 0;
   const save = async () => { setBusy(true); const ok = await app.actions.setCompetition(c); setBusy(false); if (ok) onClose(); };
+  if (minor) {
+    return html`<${Modal} title="Competitive rankings" onClose=${onClose}><p>Rankings, public profiles and other sharing are for people ${SOCIAL_MIN_AGE} and over, so they stay off. Your workout log stays private.</p>
+      <div class="modal-actions"><button class="btn primary" type="button" onClick=${onClose}>OK</button></div><//>`;
+  }
   const pick = (label, field, items) => html`<div class="field"><div class="row between"><span class="label">${label}</span><span class="row" style="gap:4px"><button class="btn sm ghost" type="button" onClick=${() => setC(v => ({ ...v, [field]: items.map(i => i[0]) }))}>All</button><button class="btn sm ghost" type="button" onClick=${() => setC(v => ({ ...v, [field]: [] }))}>None</button></span></div>
     <div class="mtog-row">${items.map(([id, name]) => { const on = c[field].includes(id); return html`<button type="button" class=${'mtog' + (on ? ' on-p' : '')} aria-pressed=${on ? 'true' : 'false'} onClick=${() => toggle(field, id)}>${name}</button>`; })}</div></div>`;
   return html`<${Modal} title="Competitive rankings" onClose=${onClose}>
@@ -3958,9 +4568,345 @@ function ParticipationModal({ app, preset, onClose }) {
           <li>Only if you choose: your age group and goal from Profile, for age- and goal-based comparisons.</li>
           <li>Never individual workouts, notes, session dates or bodyweight. Sample data never counts.</li>
           <li>Anyone with access to this page can see the leaderboards. People need Contributor access to join.</li>
-        </ul></div>` : null}
-    <div class="modal-actions"><button class="btn ghost" type="button" onClick=${onClose}>Cancel</button><button class="btn primary" type="button" disabled=${busy} onClick=${save}>${busy ? 'Saving…' : 'Save'}</button></div>
+          <li>Live leaderboards and age or goal comparisons with fewer than ${MIN_GROUP} people are hidden.</li>
+        </ul></div>
+      ${none ? html`<p class="hint" role="status">Choose at least one leaderboard to join.</p>` : null}
+      ${joining ? html`<div class="set-block"><label class="check" style="align-items:flex-start"><input type="checkbox" checked=${agree} onChange=${e => setAgree(e.target.checked)}/><span>I agree to share the summaries listed above with everyone who can open this page. I can leave at any time, which deletes my entry.</span></label></div>` : null}` : null}
+    <div class="modal-actions"><button class="btn ghost" type="button" onClick=${onClose}>Cancel</button><button class="btn primary" type="button" disabled=${busy || none || (joining && !agree)} onClick=${save}>${busy ? 'Saving…' : 'Save'}</button></div>
   <//>`;
+}
+
+/* ---------------- privacy, legal & consent screens ---------------- */
+function DocBlock({ b, notes }) {
+  if (typeof b === 'string') return html`<p>${b}</p>`;
+  if (b.ul) return html`<ul>${b.ul.map(x => html`<li>${x}</li>`)}</ul>`;
+  if (b.note) return notes ? html`<p class="rnote"><span class="rnote-tag">Review</span>${b.note}</p>` : null;
+  if (b.table) {
+    const [head, ...rows] = b.table;
+    return html`<div class="doc-cards" role="list">${rows.map(r => html`<div class="doc-card" role="listitem"><b>${r[0]}</b>${r.slice(1).map((c, i) => html`<span><span class="dc-l">${head[i + 1]}</span>${c}</span>`)}</div>`)}</div>`;
+  }
+  return null;
+}
+// Section links scroll in place: the app routes on the URL hash, so in-page anchors would change pages.
+function LegalDoc({ id, notes, compact }) {
+  const d = LEGAL_DOCS[id];
+  const jump = i => { const el = document.getElementById(`doc-${id}-${i}`); if (el) el.scrollIntoView({ behavior: REDUCED_MOTION ? 'auto' : 'smooth', block: 'start' }); };
+  return html`<div class="doc">
+    <header><h2>${d.title}</h2><div class="doc-meta">Version ${d.v} · Effective ${fmtD(d.eff, { month: 'long', day: 'numeric', year: 'numeric' })}</div></header>
+    <div class="draft-flag" role="note"><strong>Draft for review.</strong> Written to match how Lift Ledger works today. It has not been reviewed by a lawyer yet, and it does not claim that the app meets any particular law or certification.</div>
+    <p class="doc-sum">${d.summary}</p>
+    ${!compact && d.sections.length > 3 ? html`<nav class="toc" aria-label=${`${d.title} sections`}>${d.sections.map(([h], i) => html`<button type="button" onClick=${() => jump(i)}>${h}</button>`)}</nav>` : null}
+    ${d.sections.map(([h, blocks], i) => html`<section id=${`doc-${id}-${i}`}><h3>${h}</h3>${blocks.map(b => html`<${DocBlock} b=${b} notes=${notes}/>`)}</section>`)}
+  </div>`;
+}
+function LegalHistory() {
+  return html`<div class="doc"><header><h2>Change history</h2><div class="doc-meta">Every published version of Lift Ledger’s legal documents</div></header>
+    <p>A new major version (for example 2.0) is a significant change: Lift Ledger asks everyone to review and accept it before continuing. A minor version (for example 1.1) shows a notice instead.</p>
+    ${LEGAL_HISTORY.map(h => html`<section><h3>${fmtD(h.date, { month: 'long', day: 'numeric', year: 'numeric' })}</h3><p class="mono" style="font-size:13px">${Object.entries(h.docs).map(([k, v]) => `${LEGAL_DOCS[k].title} ${v}`).join(' · ')}</p><p>${h.summary}</p></section>`)}
+  </div>`;
+}
+const acceptedLine = (settings, d) => { const a = legalOf(settings)[d]; return a && a.at ? `You accepted version ${a.v} on ${fmtStamp(a.at)}.` : 'Not accepted yet.'; };
+function LegalPage({ app }) {
+  const { S } = app;
+  const id = app.legalDoc === 'history' || LEGAL_DOCS[app.legalDoc] ? app.legalDoc : 'privacy';
+  const [notes, setNotes] = useState(() => lsGet('ll.reviewNotes') === '1');
+  const toggleNotes = () => setNotes(v => { lsSet('ll.reviewNotes', v ? '0' : '1'); return !v; });
+  const pick = d => { app.setLegalDoc(d); window.scrollTo(0, 0); };
+  return html`<${PageHead} app=${app} title="Legal" sub="Policies, terms and notices"/><${SubNav} app=${app}/>
+    <div class="legal-layout">
+      <nav class="doc-list" aria-label="Legal documents">
+        ${LEGAL_ORDER.map(d => html`<button type="button" class=${d === id ? 'on' : ''} aria-current=${d === id ? 'page' : null} onClick=${() => pick(d)}><span>${LEGAL_DOCS[d].title}</span><span class="mono muted">v${LEGAL_DOCS[d].v}</span></button>`)}
+        <button type="button" class=${id === 'history' ? 'on' : ''} aria-current=${id === 'history' ? 'page' : null} onClick=${() => pick('history')}><span>Change history</span></button>
+      </nav>
+      <article class="panel" style="--pad:20px">
+        <div class="row between" style="margin-bottom:12px">
+          ${REQUIRED_DOCS.includes(id) ? html`<span class="hint">${acceptedLine(S.settings, id)}</span>` : html`<span></span>`}
+          ${id !== 'history' ? html`<label class="check" style="font-size:13px"><input type="checkbox" checked=${notes} onChange=${toggleNotes}/> Show review notes</label>` : null}
+        </div>
+        ${id === 'history' ? html`<${LegalHistory}/>` : html`<${LegalDoc} id=${id} notes=${notes} key=${id}/>`}
+        ${S.isOwner ? html`<p class="rnote" style="margin-top:18px"><span class="rnote-tag">Owner</span>Only you see this. The separate pre-launch compliance checklist, incident response plan and full license texts are kept with the project files in the compliance folder, not in the app.</p>` : null}
+      </article>
+    </div>`;
+}
+function LegalLinks({ app }) {
+  return html`<div class="legal-links">${[['privacy', 'Privacy'], ['terms', 'Terms'], ['health', 'Health & safety'], ['healthdata', 'Health data notice']].map(([d, l]) => html`<button type="button" onClick=${() => app.openLegal(d)}>${l}</button>`)}</div>`;
+}
+function SafetyNote({ app, text }) {
+  return html`<p class="safety-note">${Ic.shield()}<span>${text || 'Lift Ledger is for logging and education, not medical advice. Exercise carries risk: choose loads that suit you, and stop if you feel pain, dizziness or chest discomfort.'} <button class="linkish" type="button" onClick=${() => app.openLegal('health')}>Health and Safety Notice</button></span></p>`;
+}
+// Minor-version updates: a dismissible notice. Major versions go through the welcome screen instead.
+function PolicyUpdateBanner({ app }) {
+  const ups = legalUpdates(app.S.settings);
+  if (!ups.length) return null;
+  const dismiss = () => { const l = legalOf(store.state.settings); const seen = { ...(l.seen || {}) }; ups.forEach(d => { seen[d] = LEGAL_DOCS[d].v; }); app.actions.saveSettings({ legal: { ...l, seen } }); };
+  return html`<div class="banner"><div class="txt"><strong>Updated:</strong> ${ups.map(d => `${LEGAL_DOCS[d].title} ${LEGAL_DOCS[d].v}`).join(', ')}. ${LEGAL_HISTORY[0].summary}</div>
+    <div class="row"><button class="btn sm" type="button" onClick=${() => app.openLegal(ups[0])}>Read</button><button class="btn sm ghost" type="button" onClick=${dismiss}>Dismiss</button></div></div>`;
+}
+
+function GateFrame({ children, step }) {
+  return html`<main class="gate" id="main">
+    <div class="gate-brand">${BrandMark()}<span class="brand-name">Lift Ledger</span></div>
+    ${step ? html`<div class="gate-step">${step}</div>` : null}
+    ${children}
+  </main>`;
+}
+// First use (and any new major version of a required document): age range, then the documents.
+function WelcomeGate({ app, stage }) {
+  const { S } = app;
+  const l = legalOf(S.settings);
+  const comp = compOf(S.settings);
+  const [step, setStep] = useState(stage);
+  const [age, setAge] = useState('');
+  const [checks, setChecks] = useState({ terms: false, privacy: false, health: false });
+  const [keepRank, setKeepRank] = useState('');
+  const [reading, setReading] = useState(null);
+  const [declined, setDeclined] = useState(false);
+  const [busy, setBusy] = useState(false);
+  const band = step === 'docs' && stage === 'age' ? age : (l.age && l.age.band) || age;
+  const teen = band === 'teen';
+  const renewing = stage === 'docs' && REQUIRED_DOCS.some(d => l[d] && l[d].v);
+  const askRank = comp.enabled && !teen && ((S.settings.profile || {}).ageGroup !== 'u18');
+  const hasData = S.workouts.some(w => !w.sample) || S.exercises.some(x => !x.sample) || S.plans.length > 0;
+  const allChecked = REQUIRED_DOCS.every(d => checks[d]);
+  const ready = allChecked && (!askRank || keepRank) && !busy;
+  const nextFromAge = () => { if (age === 'u13') { app.blockAge(); return; } setStep('docs'); window.scrollTo(0, 0); };
+  const accept = async () => {
+    setBusy(true);
+    await app.actions.acceptLegal({ band: stage === 'age' ? age : null, keepRankings: askRank ? keepRank === 'keep' : null });
+    setBusy(false);
+  };
+  const dataTools = hasData ? html`<div class="row"><button class="btn sm" type="button" onClick=${() => app.setModal({ kind: 'export' })}>${Ic.download()} Download my data</button><button class="btn sm danger" type="button" onClick=${() => app.actions.deleteAccount()}>${Ic.trash()} Delete my data</button></div>` : null;
+
+  if (reading) {
+    return html`<${GateFrame}><div class="row"><button class="btn sm" type="button" onClick=${() => { setReading(null); window.scrollTo(0, 0); }}>${Ic.left()} Back</button></div>
+      <section class="panel" style="--pad:20px"><${LegalDoc} id=${reading} key=${reading}/></section>
+      <div class="row"><button class="btn primary" type="button" onClick=${() => { setReading(null); window.scrollTo(0, 0); }}>Done reading</button></div><//>`;
+  }
+  if (declined) {
+    return html`<${GateFrame}><h1>You haven’t agreed</h1>
+      <p class="gate-lead">Lift Ledger can’t be used without accepting the Terms of Service and acknowledging the Privacy Policy and Health and Safety Notice. Nothing new has been saved.</p>
+      ${hasData ? html`<section class="panel"><div class="panel-title" style="font-size:18px">Your existing data</div><p class="hint" style="margin:6px 0 10px">You can still download or delete what Lift Ledger already stores about you, without agreeing.</p>${dataTools}</section>` : null}
+      <div class="row"><button class="btn primary" type="button" onClick=${() => setDeclined(false)}>Review again</button></div><//>`;
+  }
+  if (step === 'age') {
+    return html`<${GateFrame} step="Step 1 of 2">
+      <h1>Welcome to Lift Ledger</h1>
+      <p class="gate-lead">A private training log with charts, records, programs and optional rankings. First, a quick question.</p>
+      <fieldset class="choices"><legend>How old are you?</legend>
+        ${[['u13', `Under ${MIN_AGE}`], ['teen', `${MIN_AGE} to ${SOCIAL_MIN_AGE - 1}`], ['adult', `${SOCIAL_MIN_AGE} or older`]].map(([v, t]) => html`<label class=${'choice' + (age === v ? ' on' : '')}><input type="radio" name="age" value=${v} checked=${age === v} onChange=${() => setAge(v)}/>${t}</label>`)}
+      </fieldset>
+      <p class="hint">Your answer decides which features are available. Lift Ledger stores only the range you choose, never your birth date.</p>
+      <div class="row"><button class="btn primary lg" type="button" disabled=${!age} onClick=${nextFromAge}>Continue</button></div>
+      <${LegalLinks} app=${{ openLegal: d => setReading(d) }}/><//>`;
+  }
+  return html`<${GateFrame} step=${stage === 'age' ? 'Step 2 of 2' : null}>
+    <h1>${renewing ? 'We’ve updated our terms' : 'Before you start'}</h1>
+    <p class="gate-lead">${renewing ? `${LEGAL_HISTORY[0].summary} Please review and accept to keep using Lift Ledger. Your data hasn’t changed.` : 'Please read and accept these documents. They describe how Lift Ledger works and how your information is handled.'}</p>
+    ${teen ? html`<div class="banner warn"><div class="txt"><strong>Because you’re under ${SOCIAL_MIN_AGE},</strong> rankings, public profiles and other sharing stay off. Your log stays private. Please read these documents with a parent or guardian.</div></div>` : null}
+    <div class="agree-list">
+      ${[['terms', 'I have read and agree to the Terms of Service'], ['privacy', 'I have read the Privacy Policy'], ['health', 'I understand the Health and Safety Notice: Lift Ledger doesn’t give medical advice, estimates can be wrong, and exercise carries a risk of injury']].map(([d, t]) => html`<div class="agree">
+        <div class="row between"><span style="font-weight:600;color:var(--fg)">${LEGAL_DOCS[d].title} <span class="mono muted" style="font-weight:400;font-size:12px">v${LEGAL_DOCS[d].v}</span></span><button class="btn sm ghost" type="button" onClick=${() => { setReading(d); window.scrollTo(0, 0); }}>Read</button></div>
+        <p class="hint">${LEGAL_DOCS[d].summary}</p>
+        <label class="check"><input type="checkbox" checked=${checks[d]} onChange=${e => setChecks(c => ({ ...c, [d]: e.target.checked }))}/><span>${t}</span></label>
+      </div>`)}
+    </div>
+    ${askRank ? html`<fieldset class="choices"><legend>You’re on the leaderboards</legend>
+      <p class="hint" style="margin:0 0 4px">You joined competitive rankings before Lift Ledger kept consent records. Choose whether to keep sharing your leaderboard summary ${comp.visibility === 'public' ? 'with your public profile' : `as ${comp.alias || 'an anonymous lifter'}`}. You can change this at any time.</p>
+      <label class=${'choice' + (keepRank === 'keep' ? ' on' : '')}><input type="radio" name="keeprank" checked=${keepRank === 'keep'} onChange=${() => setKeepRank('keep')}/>Keep sharing</label>
+      <label class=${'choice' + (keepRank === 'stop' ? ' on' : '')}><input type="radio" name="keeprank" checked=${keepRank === 'stop'} onChange=${() => setKeepRank('stop')}/>Stop sharing and delete my leaderboard entry</label></fieldset>` : null}
+    <p class="hint">Optional sharing, like rankings, is off unless you turn it on later. You can download or delete your data at any time from Profile → Privacy & data.</p>
+    <div class="row"><button class="btn primary lg" type="button" disabled=${!ready} onClick=${accept}>${busy ? 'Saving…' : 'Agree and continue'}</button><button class="btn ghost" type="button" onClick=${() => setDeclined(true)}>I don’t agree</button>${stage === 'age' ? html`<button class="btn ghost" type="button" onClick=${() => setStep('age')}>Back</button>` : null}</div>
+    ${S.mode === 'local' ? html`<p class="hint">This view can’t reach the app database, so your acceptance is saved in this browser.</p>` : null}<//>`;
+}
+function AgeBlocked({ app }) {
+  const { S } = app;
+  const hasData = S.workouts.some(w => !w.sample) || S.exercises.some(x => !x.sample) || S.plans.length > 0 || !!legalOf(S.settings).terms;
+  return html`<${GateFrame}><h1>Sorry, not yet</h1>
+    <p class="gate-lead">Lift Ledger isn’t available for people under ${MIN_AGE}. This answer is remembered in this browser.</p>
+    ${hasData ? html`<section class="panel"><p class="hint" style="margin-bottom:10px">If you used Lift Ledger before, you can delete everything it stored.</p><button class="btn sm danger" type="button" onClick=${() => app.actions.deleteAccount()}>${Ic.trash()} Delete my data</button></section>` : null}
+    <p class="hint">Parents or guardians: to ask about a child’s information, ${CONTACT_EMAIL ? `email ${CONTACT_EMAIL}` : 'contact the owner of this page through claude.ai'}.</p><//>`;
+}
+function DeletedScreen({ app }) {
+  return html`<${GateFrame}><h1>Your data is deleted</h1>
+    <p class="gate-lead">Lift Ledger deleted your workouts, exercises, plans, profile, settings, consent record, requests and leaderboard entry from this page’s database, and its saved data in this browser.</p>
+    <section class="panel"><ul class="plain-list">
+      <li>Your claude.ai account is separate from Lift Ledger. To manage or close it, use claude.ai’s own settings.</li>
+      <li>The hosting platform may keep backup copies for a limited time under its own policies. Lift Ledger keeps no backups of its own.</li>
+      <li>Starting again creates a new, empty log.</li>
+    </ul></section>
+    <div class="row"><button class="btn primary" type="button" onClick=${() => app.setDeleted(false)}>Start over</button></div><//>`;
+}
+
+function ExportModal({ app, onClose }) {
+  const { S } = app;
+  const [busy, setBusy] = useState(false);
+  const [text, setText] = useState(null);
+  const taRef = useRef(null);
+  const name = `lift-ledger-data-${todayStr()}.json`;
+  const build = async () => {
+    let board = null;
+    try { if (backend && backend.getMyBoard) { const snap = await backend.getMyBoard(); board = snap && snap.exists && typeof snap.data === 'function' ? snap.data() : null; } } catch (e) { board = null; }
+    return buildExport(S, { consent: S.consent, board, requests: S.myRequests });
+  };
+  const save = async () => {
+    setBusy(true);
+    const json = await build();
+    setBusy(false);
+    if (!dlCap) { setText(json); return; }
+    try { await dlCap.save({ filename: name, data: json }); app.toast('Your data was saved', 'good'); app.actions.logActivity('export', 'Downloaded all data (JSON)'); }
+    catch (e) { if (e && e.code === 'declined') return; setText(json); app.toast('Download unavailable here. Copy the text instead.', 'bad'); }
+  };
+  const copy = () => {
+    const p = navigator.clipboard && navigator.clipboard.writeText ? navigator.clipboard.writeText(text) : Promise.reject(new Error('no clipboard'));
+    p.then(() => { app.toast('Copied to clipboard', 'good'); app.actions.logActivity('export', 'Copied all data (JSON)'); }).catch(() => { if (taRef.current) { taRef.current.focus(); taRef.current.select(); } app.toast('Press Ctrl+C or ⌘C to copy the selected text.', 'info'); });
+  };
+  return html`<${Modal} title="Download my data" onClose=${onClose}>
+    <p>One JSON file with everything Lift Ledger stores about you: ${plural(S.workouts.length, 'workout')}, ${plural(S.exercises.length, 'exercise')}, ${plural(S.plans.length, 'plan')}, your profile and settings, your consent record, your leaderboard entry if you have one, requests you sent, and what’s saved in this browser.</p>
+    ${text ? html`<textarea class="input csv-box" ref=${taRef} readonly rows="6" aria-label="Your data as JSON" value=${text}></textarea>` : null}
+    <div class="modal-actions">
+      <button class="btn" type="button" onClick=${() => app.setModal({ kind: 'csv' })}>${Ic.download()} Sets as CSV</button>
+      ${text ? html`<button class="btn primary" type="button" onClick=${copy}>${Ic.copy()} Copy</button>` : html`<button class="btn primary" type="button" disabled=${busy} onClick=${save}>${Ic.download()} ${busy ? 'Preparing…' : dlCap ? `Download ${name}` : 'Show my data'}</button>`}
+    </div>
+  <//>`;
+}
+function DangerModal({ m, close }) {
+  const [txt, setTxt] = useState('');
+  const ok = txt.trim().toUpperCase() === m.phrase;
+  return html`<${Modal} title=${m.title} onClose=${() => close(false)}>
+    ${m.body}
+    <label class="field"><span>Type ${m.phrase} to confirm</span><input class="input" id="danger-phrase" autocomplete="off" autocapitalize="characters" spellcheck="false" value=${txt} onInput=${e => setTxt(e.target.value)} onKeyDown=${e => { if (e.key === 'Enter' && ok) close(true); }}/></label>
+    <div class="modal-actions"><button class="btn ghost" type="button" onClick=${() => close(false)}>Cancel</button><button class="btn danger" type="button" disabled=${!ok} onClick=${() => close(true)}>${m.ok}</button></div>
+  <//>`;
+}
+
+const ACT_LABEL = { accept: 'Accepted documents', age: 'Age range', consent: 'Sharing', export: 'Data download', 'delete-history': 'Workout history deleted', request: 'Request sent', device: 'Browser data cleared', profile: 'Profile' };
+function PrivRow({ title, state, tone, sub, children }) {
+  return html`<div class="priv-row"><span class="pr-t">${title}</span><span class=${'state' + (tone ? ' ' + tone : '')}>${state}</span>${sub ? html`<span class="pr-s">${sub}</span>` : null}${children ? html`<div class="pr-s">${children}</div>` : null}</div>`;
+}
+function RequestForm({ app }) {
+  const [kind, setKind] = useState('privacy');
+  const [msg, setMsg] = useState('');
+  const [busy, setBusy] = useState(false);
+  const send = async () => { if (!msg.trim()) return; setBusy(true); const ok = await app.actions.submitRequest(kind, msg); setBusy(false); if (ok) setMsg(''); };
+  return html`<div class="stack" style="gap:10px">
+    <label class="field"><span>Type of request</span><select class="input" id="req-kind" value=${kind} onChange=${e => setKind(e.target.value)}>${REQ_KINDS.map(([k, l]) => html`<option value=${k}>${l}</option>`)}</select></label>
+    <label class="field"><span>Message</span><textarea class="input" id="req-msg" rows="4" maxlength=${REQ_MAX_LEN} placeholder=${kind === 'security' ? 'What you found and how to reproduce it' : 'How can we help?'} value=${msg} onInput=${e => setMsg(e.target.value)}></textarea><span class="hint">${msg.length}/${REQ_MAX_LEN}. Don’t include passwords, medical details or other people’s information.</span></label>
+    <div class="row"><button class="btn primary" type="button" disabled=${busy || !msg.trim()} onClick=${send}>${busy ? 'Sending…' : 'Send request'}</button></div>
+  </div>`;
+}
+function RequestItem({ r, who, children }) {
+  return html`<div class="req"><div class="row between"><span class="row" style="gap:6px"><span class="chip plain">${REQ_LABEL[r.kind]}</span>${who ? html`<span class="soft">${who}</span>` : null}</span><span class=${'state' + (r.status === 'open' ? ' on' : ' priv')}>${r.status === 'open' ? 'Open' : r.status === 'answered' ? 'Answered' : 'Closed'}</span></div>
+    <div class="mono muted" style="font-size:12px">${fmtStamp(r.at)}</div>
+    <div class="req-msg">${r.msg}</div>
+    ${r.reply ? html`<div class="req-reply"><span class="dc-l">Reply · ${r.repliedAt ? fmtStamp(r.repliedAt) : ''}</span>${r.reply}</div>` : null}
+    ${children}</div>`;
+}
+function OwnerInbox({ app }) {
+  const { S } = app;
+  const [replying, setReplying] = useState(null);
+  const [reply, setReply] = useState('');
+  const profiles = useProfiles(S.inbox.map(x => x.uid));
+  const all = S.inbox.flatMap(x => x.items.map(r => ({ ...r, uid: x.uid }))).sort((a, b) => (a.status === 'open' ? 0 : 1) - (b.status === 'open' ? 0 : 1) || b.at - a.at);
+  const open = all.filter(r => r.status === 'open').length;
+  return html`<section class="panel"><div class="panel-head"><div><div class="panel-title">Requests inbox</div><div class="panel-sub">Only you, the page owner, see this · ${plural(open, 'open request')}</div></div></div>
+    ${all.length ? html`<div class="stack" style="gap:10px">${all.slice(0, 50).map(r => html`<${RequestItem} r=${r} who=${(profiles[r.uid] && profiles[r.uid].name) || 'Someone'}>
+      ${replying === r.id ? html`<div class="stack" style="gap:8px"><textarea class="input" rows="3" maxlength=${REQ_MAX_LEN} aria-label="Reply" value=${reply} onInput=${e => setReply(e.target.value)}></textarea>
+          <div class="row"><button class="btn sm primary" type="button" disabled=${!reply.trim()} onClick=${async () => { if (await app.actions.answerRequest(r.uid, r.id, { reply: reply.trim(), status: 'answered' })) { setReplying(null); setReply(''); } }}>Send reply</button><button class="btn sm ghost" type="button" onClick=${() => setReplying(null)}>Cancel</button></div></div>`
+        : html`<div class="row"><button class="btn sm" type="button" onClick=${() => { setReplying(r.id); setReply(r.reply || ''); }}>Reply</button>${r.status !== 'closed' ? html`<button class="btn sm ghost" type="button" onClick=${() => app.actions.answerRequest(r.uid, r.id, { status: 'closed' })}>Mark closed</button>` : html`<button class="btn sm ghost" type="button" onClick=${() => app.actions.answerRequest(r.uid, r.id, { status: 'open' })}>Reopen</button>`}</div>`}
+    <//>`)}</div>` : html`<p class="hint">No requests yet. Requests people send from Privacy & data appear here.</p>`}
+    <p class="hint" style="margin-top:10px">Treat requests as personal information: answer them here, and don’t copy them elsewhere unless you need to. Privacy requests often have legal deadlines.</p>
+  </section>`;
+}
+function DataPage({ app }) {
+  const { S, model } = app;
+  const s = S.settings, comp = compOf(s), l = legalOf(s), minor = isMinor(s), teen = l.age && l.age.band === 'teen';
+  const prof = s.profile || {};
+  const db = S.mode === 'db';
+  const consent = S.consent;
+  const hist = consent ? consent.history.slice().reverse() : [];
+  const act = Array.isArray(s.activity) ? s.activity.slice().reverse().slice(0, 15) : [];
+  const setShare = patch => app.actions.setCompetition({ ...comp, ...patch });
+  const optOn = { rankings: comp.enabled, publicProfile: comp.enabled && comp.visibility === 'public', shareDemo: comp.enabled && comp.shareDemo, relative: comp.enabled && comp.relative };
+  const withdraw = k => (k === 'rankings' ? setShare({ enabled: false }) : k === 'publicProfile' ? setShare({ visibility: 'anonymous' }) : setShare({ [k]: false }));
+  const consentName = h => (h.k.startsWith('doc:') ? `${(LEGAL_DOCS[h.k.slice(4)] || { title: h.k }).title} ${h.v ? 'v' + h.v : ''}` : (CONSENT_LABEL[h.k] || h.k));
+  return html`<${PageHead} app=${app} title="Privacy & data" sub="Your data, your choices"/><${SubNav} app=${app}/><${Banners} app=${app}/>
+    <div class="cols">
+      <div class="stack">
+        <section class="panel"><div class="panel-head"><div><div class="panel-title">At a glance</div><div class="panel-sub">What’s private, what’s shared and what you agreed to</div></div></div>
+          <${PrivRow} title="Workout log, records and profile" state="Private" tone="priv" sub=${db ? 'Stored in this app’s database under your account. Access rules let only you read them, even when the page is shared.' : 'Stored in this browser only. Nothing is sent to the app database.'}/>
+          <${PrivRow} title="Competitive rankings" state=${comp.enabled ? 'On' : 'Off'} tone=${comp.enabled ? 'on' : 'priv'} sub=${comp.enabled ? `Your leaderboard summary is visible to people who can open this page, ${comp.visibility === 'public' ? 'with your claude.ai name and photo' : `as ${comp.alias}`}.` : minor ? `Not available under ${SOCIAL_MIN_AGE}.` : 'Nothing about your training is shared.'}/>
+          <${PrivRow} title="Ads, analytics and selling data" state="None" tone="priv" sub="Lift Ledger has no ads or tracking tools and doesn’t sell or rent personal information."/>
+          <${PrivRow} title="Age range" state=${l.age ? (teen ? `${MIN_AGE}–${SOCIAL_MIN_AGE - 1}` : `${SOCIAL_MIN_AGE}+`) : '—'} sub=${minor ? `Rankings, public profiles and sharing stay off until ${SOCIAL_MIN_AGE}.` : null}/>
+          <${PrivRow} title="Terms of Service" state=${l.terms ? 'v' + l.terms.v : '—'} sub=${acceptedLine(s, 'terms')}/>
+        </section>
+
+        <section class="panel" id="sharing"><div class="panel-head"><div><div class="panel-title">Sharing permissions</div><div class="panel-sub">Everything here is off until you turn it on, and you can turn it off at any time</div></div></div>
+          ${minor ? html`<p class="hint">Rankings, public profiles and other sharing are for people ${SOCIAL_MIN_AGE} and over, so they stay off. Your log is private.</p>` : html`
+          <div class="priv-row"><span class="pr-t">Competitive rankings</span><${Seg} cls="data sm" label="Competitive rankings" value=${comp.enabled ? 'on' : 'off'} options=${[['off', 'OFF'], ['on', 'ON']]} onChange=${v => (v === 'on' ? app.setModal({ kind: 'compete', preset: 'enable' }) : setShare({ enabled: false }))}/>
+            <span class="pr-s">Turning this off deletes your leaderboard entry right away and keeps your workout history.</span></div>
+          ${comp.enabled ? html`
+            <div class="priv-row"><span class="pr-t">How you appear</span><${Seg} cls="sm" label="Leaderboard visibility" value=${comp.visibility} options=${[['anonymous', 'Anonymous'], ['public', 'Public']]} onChange=${v => setShare({ visibility: v })}/>
+              <span class="pr-s">${comp.visibility === 'public' ? 'Others see your claude.ai name and photo.' : `Others see the alias ${comp.alias}. Anonymous hides your name on screen; your entry is still stored under your account’s internal ID.`}</span></div>
+            <div class="priv-row"><span class="pr-t">Share age group and goal</span><${Seg} cls="data sm" label="Share age group and goal" value=${comp.shareDemo ? 'on' : 'off'} options=${[['off', 'OFF'], ['on', 'ON']]} onChange=${v => setShare({ shareDemo: v === 'on' })}/>
+              <span class="pr-s">Lets people compare within the same age group or goal. Groups with fewer than ${MIN_GROUP} people are never shown.</span></div>
+            <div class="priv-row"><span class="pr-t">Share strength relative to bodyweight</span><${Seg} cls="data sm" label="Share bodyweight ratio" value=${comp.relative ? 'on' : 'off'} options=${[['off', 'OFF'], ['on', 'ON']]} onChange=${v => { if (v === 'on' && !(Number(s.bodyweight) > 0)) { app.toast('Set your bodyweight in Profile first.', 'info'); return; } setShare({ relative: v === 'on' }); }}/>
+              <span class="pr-s">The ratio lets others estimate your bodyweight.</span></div>
+            <div class="row" style="margin-top:10px"><button class="btn sm" type="button" onClick=${() => app.setModal({ kind: 'compete' })}>Choose leaderboards</button><span class="hint">${plural(comp.lifts.length, 'lift')}, ${plural(comp.muscles.length, 'muscle group')}${comp.overall ? ', overall fitness' : ''}</span></div>` : null}`}
+        </section>
+
+        <section class="panel"><div class="panel-head"><div><div class="panel-title">Privacy settings</div><div class="panel-sub">Optional details you’ve given Lift Ledger</div></div></div>
+          <div class="priv-row"><span class="pr-t">Bodyweight</span><span class="state">${Number(s.bodyweight) > 0 ? `${fmtNum(s.bodyweight)} ${s.bodyweightUnit === 'kg' ? 'kg' : 'lb'}` : 'Not set'}</span>
+            <span class="pr-s">${Number(s.bodyweight) > 0 ? html`Used for bodyweight exercises${comp.relative ? ' and your bodyweight ratio on leaderboards' : ''}. <button class="linkish" type="button" onClick=${() => app.actions.removeBodyweight()}>Remove bodyweight</button>` : 'Optional. Set it in Profile if you want bodyweight exercises to count it.'}</span></div>
+          <div class="priv-row"><span class="pr-t">Age group</span><span class="state">${AGE_LABEL[prof.ageGroup] || 'Not set'}</span>
+            <span class="pr-s">${prof.ageGroup ? (teen ? 'Set to Under 18 by your age answer. Private: never shared while you are under ' + SOCIAL_MIN_AGE + '.' : html`Private unless you share it in rankings. <button class="linkish" type="button" onClick=${() => app.actions.saveSettings({ profile: { ...prof, ageGroup: null } })}>Remove age group</button>`) : 'Optional. Set it in Profile.'}</span></div>
+          <div class="priv-row"><span class="pr-t">Age range you gave</span><span class="state">${l.age ? (teen ? `${MIN_AGE}–${SOCIAL_MIN_AGE - 1}` : `${SOCIAL_MIN_AGE}+`) : '—'}</span>
+            <span class="pr-s">${teen ? html`Turned ${SOCIAL_MIN_AGE}? <button class="linkish" type="button" onClick=${() => app.actions.setAgeBand('adult')}>Update to ${SOCIAL_MIN_AGE} or older</button>` : l.age ? html`<button class="linkish" type="button" onClick=${() => app.actions.setAgeBand('teen')}>I’m under ${SOCIAL_MIN_AGE}</button>` : null}</span></div>
+          ${db ? html`<div class="priv-row"><span class="pr-t">Saved in this browser</span><span class="state">Draft and display settings</span>
+            <span class="pr-s">An unsaved workout and things like open panels and chart ranges. <button class="linkish" type="button" onClick=${() => app.actions.clearDevice()}>Clear them</button></span></div>` : null}
+        </section>
+
+        <section class="panel"><div class="panel-head"><div><div class="panel-title">Consent record</div><div class="panel-sub">What you agreed to and when. The developer can read this record; it contains no workout data</div></div></div>
+          <div class="rec-list">
+            ${REQUIRED_DOCS.map(d => html`<div class="rec"><span>${LEGAL_DOCS[d].title}</span><span class="mono muted">${l[d] ? `v${l[d].v} · ${fmtStamp(l[d].at)}` : '—'}</span></div>`)}
+            <div class="rec"><span>Minimum age (${MIN_AGE}+) confirmed</span><span class="mono muted">${l.age ? fmtStamp(l.age.at) : '—'}</span></div>
+            ${Object.keys(CONSENT_LABEL).map(k => html`<div class="rec"><span>${CONSENT_LABEL[k]}</span><span class="row" style="gap:8px"><span class=${'state' + (optOn[k] ? ' on' : '')}>${optOn[k] ? 'Granted' : 'Not given'}</span>${optOn[k] ? html`<button class="btn sm ghost" type="button" onClick=${() => withdraw(k)}>Withdraw</button>` : null}</span></div>`)}
+          </div>
+          ${hist.length ? html`<${Disclosure} id="consent-history" title="History" sub=${plural(hist.length, 'entry', 'entries')}><div class="rec-list">${hist.slice(0, 40).map(h => html`<div class="rec"><span>${consentName(h)}${h.v === '0' ? ' (before consent records)' : ''}</span><span class="mono muted">${h.granted ? (h.k.startsWith('doc:') ? 'Accepted' : 'Granted') : 'Withdrawn'} · ${fmtStamp(h.at)}</span></div>`)}</div><//>`
+            : html`<p class="hint" style="margin-top:8px">${db ? (S.consentLoaded ? 'No consent history saved yet.' : 'Loading…') : 'Kept in this browser.'}</p>`}
+        </section>
+      </div>
+
+      <div class="stack">
+        ${S.isOwner ? html`<${OwnerInbox} app=${app}/>` : null}
+        <section class="panel"><div class="panel-head"><div><div class="panel-title">Your data</div><div class="panel-sub">See it, take it with you, correct it or delete it</div></div></div>
+          <div class="priv-row"><span class="pr-t">Download my data</span><button class="btn sm" type="button" onClick=${() => app.setModal({ kind: 'export' })}>${Ic.download()} Download</button>
+            <span class="pr-s">Everything in one JSON file, or your sets as CSV.</span></div>
+          <div class="priv-row"><span class="pr-t">Correct my data</span><a class="btn sm ghost" href="#history">Open history</a>
+            <span class="pr-s">Edit any workout from History, exercises from Exercises, and your profile and settings in Profile. You can also send a correction request below.</span></div>
+          <div class="priv-row"><span class="pr-t">Delete workout history</span><button class="btn sm danger" type="button" disabled=${!!app.busy} onClick=${() => app.actions.wipeHistory()}>${Ic.trash()} Delete history</button>
+            <span class="pr-s">Removes all ${plural(S.workouts.length, 'workout')}${model.sampleWorkouts ? ', sample ones included' : ''}. Your exercise library, plans, profile and settings stay.</span></div>
+          <div class="priv-row"><span class="pr-t">Delete all my data</span><button class="btn sm danger" type="button" disabled=${!!app.busy} onClick=${() => app.actions.deleteAccount()}>${Ic.trash()} Delete everything</button>
+            <span class="pr-s">Deletes your Lift Ledger account data: workouts, exercises, plans, profile, settings, consent record, requests, leaderboard entry and what’s saved in this browser. Your claude.ai account is separate.</span></div>
+          ${app.busy ? html`<p class="soft mono" role="status">Deleting… ${app.busy.done}/${app.busy.total}</p>` : null}
+          <p class="hint" style="margin-top:10px">Deletion is immediate and can’t be undone. Lift Ledger keeps no backups of its own; the hosting platform may keep backup copies for a limited time under its own policies. See the Privacy Policy for how long each kind of data is kept.</p>
+        </section>
+
+        <section class="panel"><div class="panel-head"><div><div class="panel-title">Contact the developer</div><div class="panel-sub">Privacy questions, correction requests and security reports</div></div></div>
+          ${db ? html`<${RequestForm} app=${app}/>
+            <p class="hint" style="margin-top:10px">Only you and the developer (the owner of this page) can read your requests. The developer sees your claude.ai name with them.${CONTACT_EMAIL ? ` You can also email ${CONTACT_EMAIL}.` : ''}</p>
+            ${S.myRequests.length ? html`<div class="stack" style="gap:10px;margin-top:12px">${S.myRequests.slice().reverse().map(r => html`<${RequestItem} r=${r}/>`)}</div>` : null}`
+            : html`<p class="hint">Sending requests needs the app database. Open Lift Ledger on claude.ai while signed in${CONTACT_EMAIL ? `, or email ${CONTACT_EMAIL}` : ''}.</p>`}
+        </section>
+
+        <section class="panel"><div class="panel-head"><div><div class="panel-title">Privacy activity</div><div class="panel-sub">Recent privacy events on your account. Only you can see this</div></div></div>
+          ${act.length ? html`<div class="rec-list">${act.map(a => html`<div class="rec"><span>${ACT_LABEL[a.k] || a.k}${a.d ? html` <span class="soft">· ${String(a.d).slice(0, 120)}</span>` : null}</span><span class="mono muted">${fmtStamp(a.at)}</span></div>`)}</div>` : html`<p class="hint">Nothing yet. Downloads, deletions and sharing changes appear here.</p>`}
+        </section>
+
+        <section class="panel"><div class="panel-head"><div class="panel-title">Legal documents</div></div>
+          <div class="stack" style="gap:6px">${LEGAL_ORDER.map(d => html`<button class="doc-link" type="button" onClick=${() => app.openLegal(d)}><span>${LEGAL_DOCS[d].title}</span><span class="mono muted">v${LEGAL_DOCS[d].v} · ${fmtD(LEGAL_DOCS[d].eff)}</span></button>`)}</div>
+        </section>
+      </div>
+    </div>`;
 }
 
 /* ---------------- settings & export ---------------- */
@@ -3970,6 +4916,9 @@ function SettingsModal({ app, onClose, inline }) {
   const [bw, setBw] = useState(s.bodyweight ? String(s.bodyweight) : '');
   const [bwErr, setBwErr] = useState('');
   const [showColors, setShowColors] = useState(false);
+  useEffect(() => { setBw(s.bodyweight ? String(s.bodyweight) : ''); }, [s.bodyweight]);
+  const goTo = r => { if (onClose) onClose(); app.nav(r); };
+  const goDoc = d => { if (onClose) onClose(); app.openLegal(d); };
   const saveBw = () => {
     const t = bw.trim();
     if (t === '') { app.actions.saveSettings({ bodyweight: null }); setBwErr(''); return; }
@@ -4006,6 +4955,9 @@ function SettingsModal({ app, onClose, inline }) {
     ${(() => { const cp = compOf(s); return html`<div class="set-block"><h4>Competitive rankings</h4>
       <div class="row"><${Seg} cls="data" label="Competitive rankings" value=${cp.enabled ? 'on' : 'off'} options=${[['off', 'OFF'], ['on', 'ON']]} onChange=${v => (v === 'on' ? app.setModal({ kind: 'compete', preset: 'enable' }) : app.actions.setCompetition({ ...cp, enabled: false }))}/>${cp.enabled ? html`<button class="btn sm" type="button" onClick=${() => app.setModal({ kind: 'compete' })}>Leaderboards and visibility</button>` : null}</div>
       <p class="hint">${cp.enabled ? `You’re on the leaderboards ${cp.visibility === 'public' ? 'with your public profile' : `as ${cp.alias}`}. Turning this off deletes your leaderboard entry and keeps your workout history.` : 'Off by default. Turn on to compare with other people who use this page. Everything else works the same either way.'}</p></div>`; })()}
+    <div class="set-block"><h4>Privacy and legal</h4>
+      <p class="hint">Download or delete your data, choose what you share, and review what you agreed to.</p>
+      <div class="row"><button class="btn sm" type="button" onClick=${() => goTo('data')}>${Ic.shield()} Privacy & data</button>${[['privacy', 'Privacy Policy'], ['terms', 'Terms'], ['health', 'Health & safety']].map(([d, l]) => html`<button class="btn sm ghost" type="button" onClick=${() => goDoc(d)}>${l}</button>`)}</div></div>
     <div class="set-block"><h4>Export</h4><div><button class="btn sm" type="button" onClick=${() => app.setModal({ kind: 'csv' })}>${Ic.download()} Export history as CSV</button></div></div>
     <div class="set-block"><h4>Storage</h4><${StorageStatus} mode=${S.mode}/><p class="hint">${S.mode === 'db' ? 'Your workouts are stored in this app’s database under your account. Only you can read them, even if you share the page.' : 'This view can’t reach the app database, so entries are kept in this browser. They won’t sync to other devices.'}</p></div>
   `;
@@ -4068,6 +5020,37 @@ function App() {
   useEffect(() => { const f = () => setRoute(readRoute()); window.addEventListener('hashchange', f); return () => window.removeEventListener('hashchange', f); }, []);
   useEffect(() => { window.scrollTo(0, 0); }, [route]);
   useEffect(() => { const s = sectionOf(route); if (s.id === 'workouts' || s.id === 'progress') lastSub[s.id] = route; }, [route]);
+  // On phones, wide tables turn into stacked cards: copy each column heading onto its cells as a label.
+  useEffect(() => {
+    const label = () => {
+      for (const t of document.querySelectorAll('table.tbl:not(.no-stack)')) {
+        const heads = t.tHead && t.tHead.rows[0] ? [...t.tHead.rows[0].cells].map(c => c.textContent.trim()) : [];
+        if (heads.length < 4) continue;
+        t.classList.add('stackable');
+        if (heads[0] === '#') t.classList.add('num-first');
+        for (const r of t.tBodies[0] ? t.tBodies[0].rows : []) [...r.cells].forEach((c, i) => { const l = heads[i] || ''; if (c.getAttribute('data-label') !== l) c.setAttribute('data-label', l); });
+      }
+    };
+    let raf = 0;
+    const mo = new MutationObserver(() => { clearTimeout(raf); raf = setTimeout(label, 60); });
+    const root = document.getElementById('app');
+    if (root) mo.observe(root, { childList: true, subtree: true });
+    label();
+    return () => { mo.disconnect(); clearTimeout(raf); };
+  }, []);
+  // On touch screens: keep the focused field in view and clear the bottom bar while the keyboard is up.
+  useEffect(() => {
+    if (!COARSE) return undefined;
+    const isField = t => t && t.matches && t.matches('input:not([type=checkbox]):not([type=color]):not([type=date]), textarea');
+    const onIn = e => { if (!isField(e.target)) return; document.body.classList.add('kb-open'); const t = e.target; setTimeout(() => { try { t.scrollIntoView({ block: 'center', behavior: 'smooth' }); } catch (err) { /* ignore */ } }, 300); };
+    const onOut = () => setTimeout(() => { if (!isField(document.activeElement)) document.body.classList.remove('kb-open'); }, 120);
+    const vv = window.visualViewport;
+    const onVv = () => { const kb = Math.max(0, window.innerHeight - vv.height - vv.offsetTop); document.documentElement.style.setProperty('--kb', `${kb > 80 ? Math.round(kb) : 0}px`); };
+    document.addEventListener('focusin', onIn);
+    document.addEventListener('focusout', onOut);
+    if (vv) { vv.addEventListener('resize', onVv); vv.addEventListener('scroll', onVv); }
+    return () => { document.removeEventListener('focusin', onIn); document.removeEventListener('focusout', onOut); if (vv) { vv.removeEventListener('resize', onVv); vv.removeEventListener('scroll', onVv); } };
+  }, []);
   // Apply any custom workout-type colors as CSS variables so every view picks them up.
   useEffect(() => {
     const cc = S.settings.catColors || {};
@@ -4076,7 +5059,7 @@ function App() {
   const model = useMemo(() => buildModel(S.workouts, S.exercises, S.settings), [S.workouts, S.exercises, S.settings]);
   const F = useMemo(() => makeFmt(S.settings), [S.settings]);
   const [draft, setDraftState] = useState(loadDraft);
-  const setDraft = useCallback(upd => setDraftState(prev => { const next = typeof upd === 'function' ? upd(prev) : upd; persistDraft(next); return next; }), []);
+  const setDraft = useCallback(upd => setDraftState(prev => { const next = typeof upd === 'function' ? upd(prev) : upd; scheduleDraftSave(next); return next; }), []);
   const [ana, setAna] = useState(() => ({ ex: null, metric: null, range: RANGE_KEYS.includes(lsGet('ll.range')) ? lsGet('ll.range') : '3M', view: lsGet('ll.anaView') === 'muscle' ? 'muscle' : 'exercise', muscle: null, mMetric: 'workload', group: null, cmpSlots: null, cmpMetric: 'wsets' }));
   const [histDate, setHistDate] = useState(null);
   const [exSel, setExSel] = useState(null);
@@ -4085,11 +5068,15 @@ function App() {
   const [toasts, setToasts] = useState([]);
   const [busy, setBusy] = useState(null);
   const [rank, setRank] = useState({ mode: null, board: 'score', rel: false, cohort: 'all' });
+  const [legalDoc, setLegalDoc] = useState('privacy');
+  const [ageBlocked, setAgeBlocked] = useState(readAgeBlock);
+  const [deleted, setDeleted] = useState(false);
+  const [sessionLegal, setSessionLegal] = useState(null);
   const compOn = compOf(S.settings).enabled;
   const rankData = useMemo(() => {
     if (!compOn || !rankable(S)) return null;
     const live = S.board || [];
-    const mode = rank.mode || (live.length >= 3 ? 'live' : 'preview');
+    const mode = rank.mode || (live.length >= MIN_GROUP ? 'live' : 'preview');
     if (mode === 'live') return { mode, entries: live, meId: S.myId };
     const me = sanitizeEntry('me-preview', buildEntry(S.workouts.filter(w => model.showSample || !w.sample), S.exercises, S.settings, compOf(S.settings), true));
     return { mode, entries: [...getExamples(), me], meId: 'me-preview' };
@@ -4107,8 +5094,35 @@ function App() {
     cleaned.current = true;
     if (!compOf(store.state.settings).enabled) backend.getMyBoard().then(snap => (snap && snap.exists ? backend.deleteBoard() : null)).catch(() => {});
   }, [S.settingsLoaded, S.mode]);
+  // Rankings are 18+: switch them off, deleting the leaderboard entry, when someone is or becomes a minor.
+  const minorBusy = useRef(false);
+  useEffect(() => {
+    if (!S.settingsLoaded || minorBusy.current || !isMinor(S.settings) || !compOf(S.settings).enabled) return;
+    minorBusy.current = true;
+    actions.setCompetition({ ...compOf(S.settings), enabled: false }, { minor: true }).finally(() => { minorBusy.current = false; });
+  }, [S.settingsLoaded, S.settings]);
+  // Only the page owner reads the requests inbox.
+  useEffect(() => {
+    if (!S.isOwner || !backend || !backend.watchInbox) return undefined;
+    const un = backend.watchInbox();
+    return () => { un(); store.set({ inbox: [] }); };
+  }, [S.isOwner, S.mode]);
   const toast = useCallback((msg, tone, ms) => { const id = rk(); setToasts(t => [...t.slice(-2), { id, msg, tone: tone || 'info' }]); setTimeout(() => setToasts(t => t.filter(x => x.id !== id)), ms || 4000); }, []);
   const confirm = useCallback(opts => new Promise(res => setModal({ kind: 'confirm', ...opts, resolve: res })), []);
+  const dangerConfirm = useCallback(opts => new Promise(res => setModal({ kind: 'danger', ...opts, resolve: res })), []);
+  const openLegal = useCallback(d => { setLegalDoc(d); if (location.hash !== '#legal') location.hash = 'legal'; else window.scrollTo(0, 0); }, []);
+  const blockAge = useCallback(() => { lsSet(AGE_BLOCK_KEY, JSON.stringify({ blocked: true, at: Date.now() })); setAgeBlocked(true); }, []);
+  // Appends to the consent record the page owner can read. The private settings copy is what the app itself relies on.
+  const recordConsent = async (entries, o) => {
+    if (!backend || !backend.putConsent || (!entries.length && !o)) return;
+    const cur = store.state.consent || { docs: {}, minimumAge: false, ageAt: null, history: [] };
+    const at = Date.now();
+    const next = { v: 1, docs: { ...cur.docs }, minimumAge: cur.minimumAge, ageAt: cur.ageAt, updatedAt: at,
+      history: [...cur.history, ...entries.map(e => ({ k: e.k, granted: !!e.granted, v: e.v || null, at }))].slice(-100) };
+    if (o && o.docs) for (const d of o.docs) next.docs[d] = { v: LEGAL_DOCS[d].v, at };
+    if (o && o.age) { next.minimumAge = true; next.ageAt = at; }
+    try { await backend.putConsent(next); } catch (e) { console.error(e); }
+  };
   const nav = useCallback(r => { if (location.hash !== '#' + r) location.hash = r; else setRoute(r); }, []);
   useEffect(() => { if (S.ready && !draftHasContent(draft) && !draft.editing && draft.unit !== S.settings.unit) setDraft(d => ({ ...d, unit: S.settings.unit === 'kg' ? 'kg' : 'lb' })); }, [S.ready, S.settings.unit]);
 
@@ -4119,7 +5133,7 @@ function App() {
   };
   const actions = {
     async saveSettings(patch) {
-      try { await backend.putSettings({ ...S.settings, ...patch }); } catch (e) { fail(e, 'Setting not saved'); return; }
+      try { await backend.putSettings({ ...store.state.settings, ...patch }); } catch (e) { fail(e, 'Setting not saved'); return; }
       if (['bodyweight', 'bodyweightUnit', 'formula', 'weekStart'].some(k => k in patch)) actions.syncBoard({ settings: { ...S.settings, ...patch } });
     },
     async createExercise({ name, type, muscle, primary, secondary }) {
@@ -4179,7 +5193,7 @@ function App() {
       if (!o.force && mine && key(mine) === key(next)) return;
       try { await backend.putBoard(entry); } catch (e) { fail(e, 'Leaderboard entry not updated'); return; }
       if (mine && S.board.length > 1) {
-        const before = myStandings(S.board, S.myId), after = myStandings(S.board.map(e => (e.id === S.myId ? next : e)), S.myId);
+        const before = myStandings(S.board, S.myId, MIN_GROUP), after = myStandings(S.board.map(e => (e.id === S.myId ? next : e)), S.myId, MIN_GROUP);
         const up = after.map(a => ({ a, b: before.find(b => b.key === a.key) })).filter(x => x.b && x.a.rank < x.b.rank).sort((p, q) => p.a.rank - q.a.rank)[0];
         if (up) toast(`Rankings: you moved up to #${up.a.rank} in ${up.a.label}.`, 'pr', 6000);
       }
@@ -4228,14 +5242,18 @@ function App() {
       nav('log');
       toast(`${wk.name} is ready. Targets come from ${prog.name}; enter weights and tick sets as you go.`, 'good', 5000);
     },
-    async setCompetition(next) {
-      const prev = compOf(S.settings);
+    async setCompetition(next, o) {
+      const base = store.state.settings;
+      const prev = compOf(base);
+      if (next.enabled && isMinor(base)) { toast(`Rankings are for people ${SOCIAL_MIN_AGE} and over.`, 'info'); return false; }
       const comp = { enabled: !!next.enabled, visibility: next.visibility === 'public' ? 'public' : 'anonymous', alias: next.alias || prev.alias || newAlias(), relative: !!next.relative && Number(S.settings.bodyweight) > 0, overall: !!next.overall, shareDemo: !!next.shareDemo, lifts: (next.lifts || []).filter(k => ALL_LIFTS.includes(k)), muscles: (next.muscles || []).filter(k => MUSCLE[k]) };
-      const settings = { ...S.settings, competitive: comp, rankPrompt: 'answered' };
+      const changes = consentChanges(prev, comp);
+      const settings = withActivity({ ...base, competitive: comp, rankPrompt: 'answered' }, changes.map(ch => ({ k: 'consent', d: `${CONSENT_LABEL[ch.k]}: ${ch.granted ? 'on' : 'off'}${o && o.minor ? ' (under 18)' : ''}` })));
       try { await backend.putSettings(settings); } catch (e) { fail(e, 'Ranking settings not saved'); return false; }
+      if (changes.length) await recordConsent(changes);
       if (!comp.enabled) {
         try { if (backend.deleteBoard) await backend.deleteBoard(); } catch (e) { fail(e, 'Your leaderboard entry could not be removed. It will be retried next time you open the app'); return true; }
-        if (prev.enabled) toast('Rankings are off. Your leaderboard entry was deleted; your workout history is untouched.', 'good', 6000);
+        if (prev.enabled) toast(o && o.minor ? `Rankings are off because they’re for people ${SOCIAL_MIN_AGE} and over. Your leaderboard entry was deleted.` : 'Rankings are off. Your leaderboard entry was deleted; your workout history is untouched.', 'good', 6000);
         if (route === 'rankings') nav('dashboard');
         return true;
       }
@@ -4244,6 +5262,106 @@ function App() {
       return true;
     },
     openHistory(date) { setHistDate(date); nav('history'); },
+    // Records acceptance of the required documents (and the age answer on first use) in private settings and the consent record.
+    async acceptLegal({ band, keepRankings }) {
+      const base = store.state.settings, prev = legalOf(base), at = Date.now();
+      const legal = { ...prev, seen: { ...(prev.seen || {}) } };
+      if (band) legal.age = { band, at, minAge: MIN_AGE };
+      for (const d of REQUIRED_DOCS) legal[d] = { v: LEGAL_DOCS[d].v, at };
+      for (const d of LEGAL_ORDER) legal.seen[d] = LEGAL_DOCS[d].v;
+      const patch = { legal };
+      if (band === 'teen') patch.profile = { ...(base.profile || {}), ageGroup: 'u18' };
+      const events = [{ k: 'accept', d: REQUIRED_DOCS.map(d => `${LEGAL_DOCS[d].title} v${LEGAL_DOCS[d].v}`).join(', ') }];
+      if (band) events.push({ k: 'age', d: band === 'teen' ? `${MIN_AGE} to ${SOCIAL_MIN_AGE - 1}` : `${SOCIAL_MIN_AGE} or older` });
+      try { await backend.putSettings(withActivity({ ...base, ...patch }, events)); }
+      catch (e) { console.error(e); setSessionLegal(legal); toast(`Your acceptance couldn’t be saved: ${describeDbError(e)} You can continue for this visit.`, 'bad', 9000); return; }
+      const entries = REQUIRED_DOCS.map(d => ({ k: 'doc:' + d, granted: true, v: LEGAL_DOCS[d].v }));
+      const comp = compOf(store.state.settings);
+      // People who joined rankings before consent records existed confirm on this screen; their choices are recorded now.
+      // Choices made before records existed are logged with version "0"; stopping then records each withdrawal.
+      if (keepRankings != null) Object.entries(consentState(comp)).forEach(([k, on]) => { if (on) entries.push({ k, granted: true, v: keepRankings ? LEGAL_DOCS.privacy.v : '0' }); });
+      await recordConsent(entries, { docs: REQUIRED_DOCS, age: !!band });
+      if (keepRankings === false) await actions.setCompetition({ ...comp, enabled: false });
+      window.scrollTo(0, 0);
+    },
+    async logActivity(k, d) {
+      try { await backend.putSettings(withActivity(store.state.settings, [{ k, d }])); } catch (e) { console.error(e); }
+    },
+    async setAgeBand(band) {
+      if (band === 'adult' && !(await confirm({ title: `Are you ${SOCIAL_MIN_AGE} or older?`, body: 'Rankings become available to turn on. They stay off until you choose them.', ok: `I’m ${SOCIAL_MIN_AGE} or older` }))) return;
+      const base = store.state.settings, l = legalOf(base), prof = base.profile || {};
+      const patch = { legal: { ...l, age: { band, at: Date.now(), minAge: MIN_AGE } }, profile: { ...prof, ageGroup: band === 'teen' ? 'u18' : (prof.ageGroup === 'u18' ? null : prof.ageGroup || null) } };
+      try { await backend.putSettings(withActivity({ ...base, ...patch }, [{ k: 'age', d: band === 'teen' ? `${MIN_AGE} to ${SOCIAL_MIN_AGE - 1}` : `${SOCIAL_MIN_AGE} or older` }])); } catch (e) { fail(e, 'Age range not saved'); return; }
+      toast(band === 'teen' ? `Saved. Rankings and sharing stay off until ${SOCIAL_MIN_AGE}.` : 'Saved. You can turn on rankings in Privacy & data if you want them.', 'good', 5000);
+    },
+    async removeBodyweight() {
+      const base = store.state.settings, comp = compOf(base);
+      try { await backend.putSettings(withActivity({ ...base, bodyweight: null }, [{ k: 'profile', d: 'Removed bodyweight' }])); } catch (e) { fail(e, 'Bodyweight not removed'); return; }
+      if (comp.enabled && comp.relative) await actions.setCompetition({ ...comp, relative: false });
+      else actions.syncBoard({ settings: store.state.settings });
+      toast('Bodyweight removed', 'good');
+    },
+    async clearDevice() {
+      if (!(await confirm({ title: 'Clear data saved in this browser?', body: 'Removes your unsaved workout draft and display settings, such as open panels and chart ranges, from this browser. Your log in your account isn’t affected.', ok: 'Clear browser data', danger: true }))) return;
+      setDraft(emptyDraft(store.state.settings));
+      const n = clearDeviceData(false);
+      toast(n ? 'Cleared Lift Ledger’s data in this browser' : 'Nothing was saved in this browser', 'good');
+      actions.logActivity('device', 'Cleared draft and display settings');
+    },
+    async wipeHistory() {
+      const n = S.workouts.length;
+      if (!n) { toast('There’s no workout history to delete.', 'info'); return; }
+      const ok = await dangerConfirm({ title: 'Delete workout history?', phrase: 'DELETE', ok: 'Delete workout history',
+        body: html`<p>This permanently deletes all ${plural(n, 'workout')}${model.sampleWorkouts ? ` (${plural(model.sampleWorkouts, 'sample workout')} included)` : ''}, and the records and charts built from them. Your exercise library, plans, profile and settings stay. It can’t be undone.</p><p>Consider downloading your data first.</p>` });
+      if (!ok) return;
+      let done = 0, failed = 0;
+      setBusy({ done, total: n });
+      try { failed = await backend.wipe('history', () => { done++; setBusy({ done: Math.min(done, n), total: n }); }); }
+      catch (e) { setBusy(null); fail(e, 'History not deleted'); return; }
+      setBusy(null);
+      if (draft.editing) setDraft(emptyDraft(S.settings));
+      await actions.logActivity('delete-history', `${plural(n - failed, 'workout')} deleted${failed ? `, ${failed} not deleted` : ''}`);
+      toast(failed ? `${plural(failed, 'workout')} couldn’t be deleted. Try again.` : 'Workout history deleted. Your exercises, plans and settings are unchanged.', failed ? 'bad' : 'good', 6000);
+      actions.syncBoard({ workouts: [], force: true });
+    },
+    // Deletes everything Lift Ledger stores about this person, in the database and in this browser.
+    async deleteAccount() {
+      const ok = await dangerConfirm({ title: 'Delete all your data?', phrase: 'DELETE', ok: 'Delete everything',
+        body: html`<p>This permanently deletes ${plural(S.workouts.length, 'workout')}, ${plural(S.exercises.length, 'exercise')} and ${plural(S.plans.length, 'plan')}, your profile and settings, your consent record, requests you sent, your leaderboard entry, and what Lift Ledger saved in this browser. It can’t be undone.</p><p>Consider downloading your data first. Your claude.ai account is separate and isn’t affected.</p>` });
+      if (!ok) return;
+      const total = S.workouts.length + S.exercises.length + S.plans.length + 5;
+      let done = 0, failed = 0;
+      setBusy({ done, total });
+      try { failed = await backend.wipe('all', () => { done++; setBusy({ done: Math.min(done, total), total }); }); }
+      catch (e) { setBusy(null); fail(e, 'Your data wasn’t fully deleted'); return; }
+      setBusy(null);
+      if (failed) { toast(`${plural(failed, 'item')} couldn’t be deleted. Try again; anything already deleted stays deleted.`, 'bad', 9000); return; }
+      setDraft(emptyDraft(DEFAULT_SETTINGS));
+      clearDeviceData(true);
+      setSessionLegal(null);
+      setDeleted(true);
+      if (location.hash && location.hash !== '#dashboard') location.hash = 'dashboard';
+    },
+    async submitRequest(kind, msg) {
+      if (!backend || !backend.putRequests) return false;
+      const items = store.state.myRequests || [];
+      const text = String(msg || '').trim().slice(0, REQ_MAX_LEN);
+      if (!text) return false;
+      if (items.filter(i => i.at > Date.now() - DAY).length >= REQ_PER_DAY) { toast(`You’ve sent ${REQ_PER_DAY} requests in the last day. Please wait before sending another.`, 'bad', 6000); return false; }
+      const it = { id: uid('r'), kind: REQ_LABEL[kind] ? kind : 'other', msg: text, at: Date.now(), status: 'open', reply: '', repliedAt: null };
+      try { await backend.putRequests([...items, it].slice(-REQ_MAX_ITEMS)); } catch (e) { fail(e, 'Request not sent'); return false; }
+      toast('Sent. The developer sees it the next time they open Lift Ledger.', 'good', 6000);
+      actions.logActivity('request', REQ_LABEL[it.kind]);
+      return true;
+    },
+    async answerRequest(owner, rid, patch) {
+      const doc = S.inbox.find(x => x.uid === owner);
+      if (!doc || !backend.putInbox) return false;
+      const items = doc.items.map(r => (r.id === rid ? { ...r, ...patch, ...(patch.reply ? { repliedAt: Date.now() } : {}) } : r));
+      try { await backend.putInbox(owner, items); } catch (e) { fail(e, 'Request not updated'); return false; }
+      toast(patch.reply ? 'Reply saved. They’ll see it in Privacy & data.' : 'Request updated', 'good');
+      return true;
+    },
     async deleteSample() {
       const sw = S.workouts.filter(w => w.sample), sx = S.exercises.filter(e => e.sample);
       if (!sw.length && !sx.length) return;
@@ -4261,7 +5379,7 @@ function App() {
       toast(failed ? `${plural(failed, 'item')} couldn’t be deleted. Try again.` : 'Sample data deleted', failed ? 'bad' : 'good');
     },
   };
-  const app = { S, model, F, route, nav, draft, setDraft, ana, setAna, histDate, setHistDate, exSel, setExSel, cmp, setCmp, modal, setModal, toast, confirm, actions, busy, rank, setRank, rankData };
+  const app = { S, model, F, route, nav, draft, setDraft, ana, setAna, histDate, setHistDate, exSel, setExSel, cmp, setCmp, modal, setModal, toast, confirm, actions, busy, rank, setRank, rankData, legalDoc, setLegalDoc, openLegal, blockAge, setDeleted };
   const closeModal = () => setModal(null);
   let page;
   if (!S.ready) page = html`<div class="loading"><div class="eyebrow">Lift Ledger</div><p>Loading your training log…</p><div class="skel" style="width:60%"></div><div class="skel" style="width:40%"></div></div>`;
@@ -4273,18 +5391,28 @@ function App() {
   else if (route === 'programs') page = html`<${ProgramsPage} app=${app}/>`;
   else if (route === 'visual') page = html`<${VisualPage} app=${app}/>`;
   else if (route === 'profile') page = html`<${ProfilePage} app=${app}/>`;
+  else if (route === 'data') page = html`<${DataPage} app=${app}/>`;
+  else if (route === 'legal') page = html`<${LegalPage} app=${app}/>`;
   else page = html`<${Dashboard} app=${app}/>`;
+  const overlays = html`
+    ${modal && modal.kind === 'confirm' ? html`<${ConfirmModal} m=${modal} close=${v => { setModal(null); modal.resolve(v); }}/>` : null}
+    ${modal && modal.kind === 'danger' ? html`<${DangerModal} m=${modal} close=${v => { setModal(null); modal.resolve(v); }}/>` : null}
+    ${modal && modal.kind === 'export' ? html`<${ExportModal} app=${app} onClose=${closeModal}/>` : null}
+    ${modal && modal.kind === 'settings' ? html`<${SettingsModal} app=${app} onClose=${closeModal}/>` : null}
+    ${modal && modal.kind === 'exercise' ? html`<${ExerciseForm} app=${app} x=${modal.x} onClose=${closeModal}/>` : null}
+    ${modal && modal.kind === 'csv' ? html`<${CsvModal} app=${app} onClose=${closeModal}/>` : null}
+    ${modal && modal.kind === 'compete' ? html`<${ParticipationModal} app=${app} preset=${modal.preset} onClose=${closeModal}/>` : null}
+    <div class="toasts" aria-live="polite">${toasts.map(t => html`<div class=${'toast ' + t.tone} key=${t.id}><i></i><span>${t.msg}</span></div>`)}</div>`;
+  // Before the app opens: the deletion confirmation, the under-age screen, or the welcome and legal acceptance screens.
+  const stage = S.ready && S.settingsLoaded ? gateStage(sessionLegal ? { ...S.settings, legal: sessionLegal } : S.settings) : null;
+  const gate = deleted ? html`<${DeletedScreen} app=${app}/>` : ageBlocked ? html`<${AgeBlocked} app=${app}/>` : stage ? html`<${WelcomeGate} app=${app} stage=${stage} key=${stage}/>` : null;
+  if (gate) return html`<div class="gate-shell">${gate}${overlays}</div>`;
   return html`<div class="shell">
     <${Rail} app=${app}/>
     <main class="main"><div class="view" key=${route}>${page}</div></main>
     <${Fab} app=${app}/>
     <${TabBar} app=${app}/>
-    ${modal && modal.kind === 'confirm' ? html`<${ConfirmModal} m=${modal} close=${v => { setModal(null); modal.resolve(v); }}/>` : null}
-    ${modal && modal.kind === 'settings' ? html`<${SettingsModal} app=${app} onClose=${closeModal}/>` : null}
-    ${modal && modal.kind === 'exercise' ? html`<${ExerciseForm} app=${app} x=${modal.x} onClose=${closeModal}/>` : null}
-    ${modal && modal.kind === 'csv' ? html`<${CsvModal} app=${app} onClose=${closeModal}/>` : null}
-    ${modal && modal.kind === 'compete' ? html`<${ParticipationModal} app=${app} preset=${modal.preset} onClose=${closeModal}/>` : null}
-    <div class="toasts" aria-live="polite">${toasts.map(t => html`<div class=${'toast ' + t.tone} key=${t.id}><i></i><span>${t.msg}</span></div>`)}</div>
+    ${overlays}
   </div>`;
 }
 
